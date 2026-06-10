@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>แดชบอร์ดผู้ดูแลระบบ | คณะสหเวชศาสตร์</title>
+  <meta name="description" content="Admin Dashboard - แบบสำรวจความพึงพอใจ คณะสหเวชศาสตร์ มหาวิทยาลัยนเรศวร" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS v3 CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans Thai', 'sans-serif'],
+            thai: ['Noto Sans Thai', 'sans-serif'],
+          },
+        },
+      },addEventListener
+    };
+  </script>
+
+  <!-- Chart.js v4 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body class="bg-[#0f172a] text-gray-200 font-sans min-h-screen">
+
+  <!-- ======================== LOGIN MODAL ======================== -->
+  <div id="loginModal" class="login-overlay">
+    <div class="login-card">
+      <div class="text-center mb-6">
+        <div class="text-4xl mb-3">🔐</div>
+        <h2 class="text-xl font-bold text-white">เข้าสู่ระบบผู้ดูแล</h2>
+        <p class="text-sm text-gray-400 mt-1">กรุณากรอกชื่อผู้ใช้และรหัสผ่านเพื่อเข้าถึงแดชบอร์ด</p>
+      </div>
+      <form id="loginForm" class="space-y-4">
+        <input type="text" id="loginUsername" placeholder="ชื่อผู้ใช้ (Username)" autocomplete="username"
+          class="w-full px-4 py-3 bg-[#1e293b] border border-[#334155] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" />
+        <input type="password" id="loginPassword" placeholder="รหัสผ่าน (Password)" autocomplete="current-password"
+          class="w-full px-4 py-3 bg-[#1e293b] border border-[#334155] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent" />
+        <div id="loginError" class="text-red-400 text-sm hidden">ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</div>
+        <button type="submit"
+          class="w-full py-3 bg-gradient-to-r from-teal-600 to-emerald-600 text-white font-semibold rounded-lg hover:from-teal-500 hover:to-emerald-500 transition-all duration-300">
+          เข้าสู่ระบบ
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================== MAIN APP ======================== -->
+  <div id="mainApp" class="hidden">
+
+    <!-- ==================== HEADER ==================== -->
+    <header class="dashboard-header">
+      <div class="flex items-center justify-between px-4 py-3 max-w-full">
+        <div class="flex items-center gap-3">
+          <!-- Mobile menu toggle -->
+          <button id="menuToggle" class="lg:hidden text-gray-300 hover:text-white p-1">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+          <div>
+            <h1 class="text-lg font-bold text-white flex items-center gap-2">
+              📊 แดชบอร์ดผู้ดูแลระบบ
+              <span id="totalBadge" class="text-xs bg-teal-600 text-white px-2 py-0.5 rounded-full">0 รายการ</span>
+            </h1>
+            <p class="text-xs text-gray-400">คณะสหเวชศาสตร์ มหาวิทยาลัยนเรศวร</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="index.html" class="text-xs text-gray-400 hover:text-teal-400 transition-colors">← หน้าหลัก</a>
+          <span id="adminNameBadge" class="text-xs text-teal-300 bg-teal-900/40 px-2.5 py-1 rounded-full flex items-center gap-1">
+            👤 <span id="adminDisplayName">ผู้ดูแลระบบ</span>
+          </span>
+          <button id="logoutBtn"
+            class="px-3 py-1.5 bg-red-600/20 text-red-400 text-sm rounded-lg hover:bg-red-600/40 transition-all">
+            ออกจากระบบ
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ==================== LAYOUT ==================== -->
+    <div class="flex">
+
+      <!-- ==================== SIDEBAR ==================== -->
+      <aside id="sidebar" class="sidebar">
+        <nav class="p-4 space-y-2">
+          <p class="text-xs text-gray-500 uppercase tracking-wider mb-3 font-semibold">เมนูข้อมูล</p>
+
+          <button onclick="switchDataset('demographics')" data-dataset="demographics"
+            class="nav-item active w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-2 text-sm transition-all">
+            <span>📋</span> ข้อมูลทั่วไป
+          </button>
+          <button onclick="switchDataset('satisfaction')" data-dataset="satisfaction"
+            class="nav-item w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-2 text-sm transition-all">
+            <span>⭐</span> วิเคราะห์ความพึงพอใจ
+          </button>
+          <button onclick="switchDataset('expectations')" data-dataset="expectations"
+            class="nav-item w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-2 text-sm transition-all">
+            <span>🎯</span> ความคาดหวังและ NPS
+          </button>
+          <button onclick="switchDataset('kpi')" data-dataset="kpi"
+            class="nav-item w-full text-left px-3 py-2.5 rounded-lg flex items-center gap-2 text-sm transition-all">
+            <span>📋</span> สรุป KPI
+          </button>
+        </nav>
+
+        <!-- Filters -->
+        <div class="p-4 border-t border-[#334155]">
+          <p class="text-xs text-gray-500 uppercase tracking-wider mb-3 font-semibold">ตัวกรอง</p>
+
+          <div class="filter-group">
+            <label class="filter-label">📅 ช่วงวันที่</label>
+            <input type="date" id="filter-dateFrom" class="filter-select w-full px-3 py-2 bg-[#1e293b] border border-[#334155] rounded-lg text-sm text-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-500" />
+            <input type="date" id="filter-dateTo" class="filter-select mt-1 w-full px-3 py-2 bg-[#1e293b] border border-[#334155] rounded-lg text-sm text-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-500" />
+          </div>
+          <div class="filter-group mt-3">
+            <label class="filter-label text-xs text-gray-400 block mb-1">📊 ไตรมาส</label>
+            <select id="filter-quarter" class="filter-select w-full px-3 py-2 bg-[#1e293b] border border-[#334155] rounded-lg text-sm text-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-500">
+              <option value="">ทั้งหมด</option>
+              <option value="Q1">Q1 (ม.ค. - มี.ค.)</option>
+              <option value="Q2">Q2 (เม.ย. - มิ.ย.)</option>
+              <option value="Q3">Q3 (ก.ค. - ก.ย.)</option>
+              <option value="Q4">Q4 (ต.ค. - ธ.ค.)</option>
+            </select>
+          </div>
+          <div class="filter-group mt-3">
+            <label class="filter-label text-xs text-gray-400 block mb-1">📆 ปี</label>
+            <select id="filter-year" class="filter-select w-full px-3 py-2 bg-[#1e293b] border border-[#334155] rounded-lg text-sm text-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-500">
+              <option value="">ทั้งหมด</option>
+            </select>
+          </div>
+
+          <label class="text-xs text-gray-400 block mb-1 mt-3">ช่วงอายุ</label>
+          <select id="filterAge" onchange="applyFilters()"
+            class="w-full px-3 py-2 bg-[#1e293b] border border-[#334155] rounded-lg text-sm text-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-500 mb-3">
+            <option value="">ทั้งหมด</option>
+            <option value="<18">ต่ำกว่า 18</option>
+            <option value="18-24">18-24</option>
+            <option value="25-34">25-34</option>
+            <option value="35-44">35-44</option>
+            <option value="45-54">45-54</option>
+            <option value="55-64">55-64</option>
+            <option value="65+">65+</option>
+          </select>
+
+          <label class="text-xs text-gray-400 block mb-1">อาชีพ</label>
+          <select id="filterOccupation" onchange="applyFilters()"
+            class="w-full px-3 py-2 bg-[#1e293b] border border-[#334155] rounded-lg text-sm text-gray-300 focus:outline-none focus:ring-1 focus:ring-teal-500 mb-3">
+            <option value="">ทั้งหมด</option>
+          </select>
+
+          <!-- Service filter status -->
+          <div id="serviceFilterStatus" class="hidden mt-3 p-2 bg-teal-900/30 border border-teal-700/50 rounded-lg">
+            <p class="text-xs text-teal-400 flex items-center justify-between">
+              <span>กรอง: <strong id="serviceFilterName"></strong></span>
+              <button onclick="clearServiceFilter()" class="text-teal-300 hover:text-white text-xs">✕ ล้าง</button>
+            </p>
+          </div>
+
+          <button onclick="clearAllFilters()"
+            class="w-full mt-3 py-2 bg-[#334155] text-gray-400 text-xs rounded-lg hover:bg-[#475569] hover:text-gray-200 transition-all">
+            🔄 ล้างตัวกรอง
+          </button>
+        </div>
+      </aside>
+
+      <!-- ==================== MAIN CONTENT ==================== -->
+      <main class="flex-1 p-4 lg:p-6 min-h-[calc(100vh-56px)] overflow-y-auto">
+
+        <!-- Export Excel Button -->
+        <div class="flex justify-end mb-4">
+          <button id="btn-export-excel" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium rounded-lg flex items-center gap-2 transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            Export Excel
+          </button>
+        </div>
+
+        <!-- Loading spinner -->
+        <div id="loadingSpinner" class="hidden flex items-center justify-center py-20">
+          <div class="loading-spinner"></div>
+        </div>
+
+        <!-- Dataset 1: Demographics -->
+        <div id="dataset-demographics" class="dataset-container">
+          <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            📋 ข้อมูลทั่วไปและการดำเนินงาน
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            <div class="chart-card">
+              <h3 class="chart-title">อายุผู้ใช้บริการ</h3>
+              <div class="chart-container"><canvas id="chartAge"></canvas></div>
+            </div>
+            <div class="chart-card">
+              <h3 class="chart-title">อาชีพ</h3>
+              <div class="chart-container"><canvas id="chartOccupation"></canvas></div>
+            </div>
+            <div class="chart-card">
+              <h3 class="chart-title">ช่องทางการรับรู้ข่าวสาร <span class="kpi-tag">KPI 7.4-13</span></h3>
+              <div class="chart-container"><canvas id="chartNewsSource"></canvas></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dataset 2: Satisfaction -->
+        <div id="dataset-satisfaction" class="dataset-container hidden">
+          <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            ⭐ วิเคราะห์ความพึงพอใจการให้บริการ
+            <span id="satisfactionFilterLabel" class="text-sm font-normal text-gray-400"></span>
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div class="chart-card">
+              <h3 class="chart-title">สัดส่วนผู้เข้าใช้บริการแต่ละแผนก</h3>
+              <p class="text-xs text-gray-500 mb-2">คลิกที่แผนกเพื่อกรองข้อมูล</p>
+              <div class="chart-container chart-container-sm"><canvas id="chartServiceDonut"></canvas></div>
+            </div>
+            <div class="chart-card">
+              <h3 class="chart-title">ประสิทธิภาพเวลารอรับบริการ <span class="kpi-tag">KPI 7.2-29</span></h3>
+              <p class="text-xs text-gray-500 mb-2">% ผู้ใช้บริการที่รอไม่เกิน 15 นาที</p>
+              <div class="chart-container chart-container-sm"><canvas id="chartWaitEfficiency"></canvas></div>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="chart-card">
+              <h3 class="chart-title">คะแนนความพึงพอใจภาพรวม <span class="kpi-tag">KPI 7.1-9</span></h3>
+              <div class="gauge-wrapper">
+                <div class="chart-container chart-container-sm"><canvas id="chartSatisfactionGauge"></canvas></div>
+                <div id="gaugeOverlayText" class="gauge-overlay-text">
+                  <span id="gaugeMainText" class="gauge-main-score">—</span>
+                  <span id="gaugeSubText" class="gauge-sub-score"></span>
+                </div>
+              </div>
+              <p id="satisfactionLevel" class="text-center text-sm mt-2 font-semibold"></p>
+            </div>
+            <div class="chart-card">
+              <h3 class="chart-title">📊 คะแนนเฉลี่ยความพึงพอใจรายข้อ (Average Score)</h3>
+              <div class="chart-container chart-container-tall"><canvas id="chartScoreDistribution"></canvas></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dataset 3: Expectations & NPS -->
+        <div id="dataset-expectations" class="dataset-container hidden">
+          <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            🎯 ความคาดหวังและ Net Promoter Score (NPS)
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-4">
+            <div class="chart-card">
+              <h3 class="chart-title">เปรียบเทียบความคาดหวัง ก่อน-หลัง</h3>
+              <p class="text-xs text-gray-500 mb-2">Q15 (ก่อน) vs Q16 (หลัง) - สเกล 0-10</p>
+              <div class="chart-container"><canvas id="chartExpectation"></canvas></div>
+            </div>
+            <div class="chart-card overflow-y-auto max-h-96">
+              <h3 class="chart-title">แนวโน้มการแนะนำต่อ <span class="kpi-tag">KPI 7.2-34</span></h3>
+              <p class="text-xs text-gray-500 mb-2">Q18: แนะนำผู้อื่น / Q19: ใช้บริการใหม่</p>
+              <div class="flex gap-4">
+                <div class="flex-1">
+                  <div class="gauge-wrapper gauge-wrapper-sm">
+                    <div class="chart-container" style="height:180px;"><canvas id="chartRecommendGauge"></canvas></div>
+                    <div id="recommendOverlay" class="gauge-overlay-text gauge-overlay-sm">
+                      <span class="gauge-main-score gauge-score-sm">—</span>
+                      <span class="gauge-sub-score">/ 10</span>
+                    </div>
+                  </div>
+                  <p class="text-center text-xs text-gray-400 mt-1">แนะนำผู้อื่น</p>
+                </div>
+                <div class="flex-1">
+                  <div class="gauge-wrapper gauge-wrapper-sm">
+                    <div class="chart-container" style="height:180px;"><canvas id="chartReuseGauge"></canvas></div>
+                    <div id="reuseOverlay" class="gauge-overlay-text gauge-overlay-sm">
+                      <span class="gauge-main-score gauge-score-sm">—</span>
+                      <span class="gauge-sub-score">/ 10</span>
+                    </div>
+                  </div>
+                  <p class="text-center text-xs text-gray-400 mt-1">ใช้บริการใหม่</p>
+                </div>
+              </div>
+            </div>
+            <div class="chart-card nps-card">
+              <h3 class="chart-title">Net Promoter Score (NPS)</h3>
+              <p class="text-xs text-gray-500 mb-3">จาก Q18: ความเป็นไปได้ที่จะแนะนำผู้อื่น</p>
+              <div id="npsContent">
+                <div class="text-center mb-4">
+                  <div id="npsScore" class="text-5xl font-extrabold">—</div>
+                  <div id="npsLabel" class="text-sm mt-1">ยังไม่มีข้อมูล</div>
+                </div>
+                <div id="npsBreakdown" class="space-y-2"></div>
+                <div class="mt-3 pt-3 border-t border-[#334155]">
+                  <p class="text-xs text-gray-500 text-center">NPS = %Promoters − %Detractors</p>
+                  <p id="npsTotalResponses" class="text-xs text-gray-500 text-center mt-1"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Feedback -->
+          <div class="chart-card mt-4">
+            <h3 class="chart-title">💬 ข้อเสนอแนะล่าสุด</h3>
+            <div id="feedbackList" class="feedback-list max-h-80 overflow-y-auto mt-3 space-y-2">
+              <p class="text-gray-500 text-sm">ยังไม่มีข้อมูล</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dataset 4: KPI Overview (EdPE Mapping) -->
+        <div id="dataset-kpi" class="dataset-container hidden">
+          <h2 class="text-xl font-bold text-white mb-2">📋 สรุปภาพรวม KPI แยกตามหมวดหมู่ EdPE</h2>
+          <p class="text-xs text-gray-500 mb-4">อิงตามตัวชี้วัด EdPE คณะสหเวชศาสตร์ มหาวิทยาลัยนเรศวร</p>
+
+          <!-- Service Filter for KPI -->
+          <div class="flex flex-wrap items-center gap-2 mb-6 p-3 rounded-xl bg-[#1e293b]/60 border border-[#334155]">
+            <span class="text-xs text-gray-400 mr-1">🔍 กรองบริการ:</span>
+            <button class="kpi-svc-btn active" data-kpi-svc="" id="kpi-svc-all">ทั้งหมด</button>
+            <button class="kpi-svc-btn" data-kpi-svc="pt" id="kpi-svc-pt">🏥 กายภาพบำบัด</button>
+            <button class="kpi-svc-btn" data-kpi-svc="fitness" id="kpi-svc-fitness">💪 ฟิตเนสและซาวน่า</button>
+            <button class="kpi-svc-btn" data-kpi-svc="hydro" id="kpi-svc-hydro">🌊 ธาราบำบัด</button>
+          </div>
+
+          <!-- ── หมวด 7.1n: ผลลัพธ์ด้านการบริการ ── -->
+          <div class="mb-6">
+            <h3 class="text-sm font-bold text-teal-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+              <span class="w-1.5 h-4 bg-teal-500 rounded-full inline-block"></span>
+              หมวด 7.1n — ผลลัพธ์ด้านการให้บริการสุขภาพ
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              <!-- 7.1-8 -->
+              <div class="chart-card" id="kpi-7_1-8">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">👥</span>
+                  <div>
+                    <span class="kpi-tag">7.1-8</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">จำนวนผู้เข้ารับบริการรายใหม่</h4>
+                  </div>
+                </div>
+                <div class="kpi-score-display" id="kpi-71-8-score">—</div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="kpi-71-8-detail"></p>
+              </div>
+              <!-- 7.1-9 -->
+              <div class="chart-card" id="kpi-7_1-9">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">⭐</span>
+                  <div>
+                    <span class="kpi-tag">7.1-9</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">ผลประเมินความพึงพอใจผู้รับบริการ</h4>
+                  </div>
+                </div>
+                <div class="kpi-score-display" id="kpi-71-9-score">—</div>
+                <div class="kpi-progress-bar"><div class="kpi-progress-fill" id="kpi-71-9-bar" style="width:0%"></div></div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="kpi-71-9-detail"></p>
+              </div>
+              <!-- 7.1-29 -->
+              <div class="chart-card" id="kpi-7_1-29">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">⏱️</span>
+                  <div>
+                    <span class="kpi-tag">7.1-29</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">ระยะเวลารอรับบริการเฉลี่ยต่อเคส</h4>
+                  </div>
+                </div>
+                <div class="kpi-score-display" id="kpi-71-29-score">—</div>
+                <div class="kpi-progress-bar"><div class="kpi-progress-fill" id="kpi-71-29-bar" style="width:0%"></div></div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="kpi-71-29-detail"></p>
+              </div>
+              <!-- 7.1-31 -->
+              <div class="chart-card" id="kpi-7_1-31" style="border-top:2px solid #eab308;">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">🏅</span>
+                  <div>
+                    <span class="kpi-tag" style="background:rgba(234,179,8,0.2);color:#fbbf24;">7.1-31 ★</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">คะแนนความพึงพอใจผู้รับบริการสุขภาพ</h4>
+                    <p class="text-[10px] text-gray-500">(คะแนนเฉลี่ย 5 ระดับ) รวม 7.1-9</p>
+                  </div>
+                </div>
+                <div class="kpi-score-display" id="kpi-71-31-score">—</div>
+                <div class="kpi-progress-bar"><div class="kpi-progress-fill" id="kpi-71-31-bar" style="width:0%"></div></div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="kpi-71-31-detail"></p>
+              </div>
+              <!-- 7.1-33 -->
+              <div class="chart-card" id="kpi-7_1-33">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">🔄</span>
+                  <div>
+                    <span class="kpi-tag">7.1-33</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">อัตราการกลับรับบริการซ้ำ</h4>
+                  </div>
+                </div>
+                <div class="kpi-score-display" id="kpi-71-33-score">—</div>
+                <div class="kpi-progress-bar"><div class="kpi-progress-fill" id="kpi-71-33-bar" style="width:0%"></div></div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="kpi-71-33-detail"></p>
+              </div>
+              <!-- 7.1-32 -->
+              <div class="chart-card" id="kpi-7_1-32">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">⚠️</span>
+                  <div>
+                    <span class="kpi-tag">7.1-32</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">อัตราเหตุการณ์ไม่พึงประสงค์ (Adverse Event)</h4>
+                  </div>
+                </div>
+                <div class="kpi-score-display text-green-400" style="font-size:1.5rem;">0%</div>
+                <p class="text-xs text-gray-400 mt-1 text-center">ไม่มีรายงาน (จากข้อมูลแบบสำรวจ)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── หมวด 7.2n(1): ความพึงพอใจลูกค้า ── -->
+          <div class="mb-6">
+            <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+              <span class="w-1.5 h-4 bg-cyan-500 rounded-full inline-block"></span>
+              หมวด 7.2n(1) — ความพึงพอใจของลูกค้า/ผู้รับบริการ
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              <!-- 7.2-20 -->
+              <div class="chart-card">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">🏢</span>
+                  <div>
+                    <span class="kpi-tag">7.2-20</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">ความพึงพอใจด้านสถานที่/อำนวยความสะดวก</h4>
+                  </div>
+                </div>
+                <div class="kpi-score-display" id="kpi-72-20-score">—</div>
+                <div class="kpi-progress-bar"><div class="kpi-progress-fill" id="kpi-72-20-bar" style="width:0%"></div></div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="kpi-72-20-detail"></p>
+              </div>
+              <!-- 7.2-21 -->
+              <div class="chart-card">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">💼</span>
+                  <div>
+                    <span class="kpi-tag">7.2-21</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">ความพึงพอใจต่อบริการที่ได้รับ</h4>
+                  </div>
+                </div>
+                <div class="kpi-score-display" id="kpi-72-21-score">—</div>
+                <div class="kpi-progress-bar"><div class="kpi-progress-fill" id="kpi-72-21-bar" style="width:0%"></div></div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="kpi-72-21-detail"></p>
+              </div>
+              <!-- 7.2-22 -->
+              <div class="chart-card">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">📊</span>
+                  <div>
+                    <span class="kpi-tag">7.2-22</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">ร้อยละความพึงพอใจภาพรวมการบริการ</h4>
+                  </div>
+                </div>
+                <div class="kpi-score-display" id="kpi-72-22-score">—</div>
+                <div class="kpi-progress-bar"><div class="kpi-progress-fill" id="kpi-72-22-bar" style="width:0%"></div></div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="kpi-72-22-detail"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── หมวด 7.2n(2),(3): การกลับใช้บริการ / บอกต่อ / NPS ── -->
+          <div class="mb-6">
+            <h3 class="text-sm font-bold text-purple-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+              <span class="w-1.5 h-4 bg-purple-500 rounded-full inline-block"></span>
+              หมวด 7.2n(2),(3) — การกลับใช้บริการซ้ำ / การบอกต่อ / NPS
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              <!-- 7.2-28 -->
+              <div class="chart-card" style="border-top:2px solid #eab308;">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">🆕</span>
+                  <div>
+                    <span class="kpi-tag" style="background:rgba(234,179,8,0.2);color:#fbbf24;">7.2-28</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">ผู้รับบริการรายใหม่</h4>
+                  </div>
+                </div>
+                <div class="kpi-score-display" id="kpi-72-28-score">—</div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="kpi-72-28-detail"></p>
+              </div>
+              <!-- 7.2-33 -->
+              <div class="chart-card">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">🔁</span>
+                  <div>
+                    <span class="kpi-tag">7.2-33</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">สัดส่วนผู้ใช้บริการที่กลับมาใช้ซ้ำ</h4>
+                  </div>
+                </div>
+                <div class="kpi-score-display" id="kpi-72-33-score">—</div>
+                <div class="kpi-progress-bar"><div class="kpi-progress-fill" id="kpi-72-33-bar" style="width:0%"></div></div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="kpi-72-33-detail"></p>
+              </div>
+              <!-- 7.2-34 (NPS) -->
+              <div class="chart-card" style="border-top:2px solid #f43f5e;">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">🎯</span>
+                  <div>
+                    <span class="kpi-tag" style="background:rgba(244,63,94,0.2);color:#fb7185;">7.2-34</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">ร้อยละการบอกต่อ (NPS)</h4>
+                  </div>
+                </div>
+                <div class="kpi-score-display" id="kpi-72-34-score">—</div>
+                <div class="kpi-progress-bar"><div class="kpi-progress-fill" id="kpi-72-34-bar" style="width:0%"></div></div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="kpi-72-34-detail"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── หมวด 7.4: การรับรู้ข่าวสาร ── -->
+          <div class="mb-6">
+            <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+              <span class="w-1.5 h-4 bg-amber-500 rounded-full inline-block"></span>
+              หมวด 7.4 — การรับรู้ข้อมูลข่าวสาร / ความพึงพอใจต่อบริการ
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              <!-- 7.4-10a -->
+              <div class="chart-card">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">💚</span>
+                  <div>
+                    <span class="kpi-tag">7.4-10a</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">ความพึงพอใจต่อบริการสุขภาพโดยผู้รับบริการ</h4>
+                  </div>
+                </div>
+                <div class="kpi-score-display" id="kpi-74-10a-score">—</div>
+                <div class="kpi-progress-bar"><div class="kpi-progress-fill" id="kpi-74-10a-bar" style="width:0%"></div></div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="kpi-74-10a-detail"></p>
+              </div>
+              <!-- 7.4-13 -->
+              <div class="chart-card">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">📢</span>
+                  <div>
+                    <span class="kpi-tag">7.4-13</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">ระดับการรับรู้ข้อมูลข่าวสารของผู้รับบริการ</h4>
+                  </div>
+                </div>
+                <div class="kpi-score-display" id="kpi-74-13-score">—</div>
+                <div class="kpi-progress-bar"><div class="kpi-progress-fill" id="kpi-74-13-bar" style="width:0%"></div></div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="kpi-74-13-detail"></p>
+              </div>
+              <!-- 7.4-14 -->
+              <div class="chart-card">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xl">📱</span>
+                  <div>
+                    <span class="kpi-tag">7.4-14</span>
+                    <h4 class="text-xs font-semibold text-white mt-0.5">ความพึงพอใจต่อสื่อ/ช่องทางรับข่าวสาร</h4>
+                  </div>
+                </div>
+                <div class="kpi-score-display" id="kpi-74-14-score">—</div>
+                <div class="kpi-progress-bar"><div class="kpi-progress-fill" id="kpi-74-14-bar" style="width:0%"></div></div>
+                <p class="text-xs text-gray-400 mt-1 text-center" id="kpi-74-14-detail"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Custom JS -->
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

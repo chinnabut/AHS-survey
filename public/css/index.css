@@ -1,0 +1,371 @@
+/* ============================================
+   Survey App – Welcome Page Custom Styles
+   ============================================ */
+
+/* ---------- Reset & Base ---------- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ---------- Animated Background Orbs ---------- */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #34d399 0%, transparent 70%);
+  top: -10%;
+  left: -8%;
+  animation: float-1 18s ease-in-out infinite;
+}
+
+.orb-2 {
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+  top: 50%;
+  right: -10%;
+  animation: float-2 22s ease-in-out infinite;
+}
+
+.orb-3 {
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, #f59e0b 0%, transparent 70%);
+  bottom: -5%;
+  left: 30%;
+  animation: float-3 20s ease-in-out infinite;
+}
+
+.orb-4 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+  top: 20%;
+  left: 55%;
+  animation: float-4 24s ease-in-out infinite;
+}
+
+@keyframes float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25%      { transform: translate(60px, 40px) scale(1.08); }
+  50%      { transform: translate(-30px, 80px) scale(0.95); }
+  75%      { transform: translate(40px, -20px) scale(1.05); }
+}
+
+@keyframes float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25%      { transform: translate(-50px, -60px) scale(1.1); }
+  50%      { transform: translate(40px, -30px) scale(0.92); }
+  75%      { transform: translate(-20px, 50px) scale(1.06); }
+}
+
+@keyframes float-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(70px, -40px) scale(1.12); }
+  66%      { transform: translate(-40px, -60px) scale(0.9); }
+}
+
+@keyframes float-4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  20%      { transform: translate(-60px, 30px) scale(1.05); }
+  40%      { transform: translate(30px, 70px) scale(0.93); }
+  60%      { transform: translate(50px, -40px) scale(1.08); }
+  80%      { transform: translate(-30px, -50px) scale(0.97); }
+}
+
+/* ---------- Particle Canvas ---------- */
+#particles-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ---------- Glassmorphism Card ---------- */
+.glass-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.25rem;
+  transition: all 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.glass-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.4);
+}
+
+.glass-card:hover::before {
+  opacity: 1;
+}
+
+/* ---------- Card Background Image ---------- */
+.card-bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease, background-image 0.6s ease, transform 0.6s ease;
+}
+
+.glass-card:hover .card-bg-image {
+  transform: scale(1.1);
+}
+
+/* Card accent glow variants */
+.card-fitness::before {
+  background: radial-gradient(ellipse at 50% 0%, rgba(251, 191, 36, 0.12) 0%, transparent 70%);
+}
+.card-fitness:hover {
+  border-color: rgba(251, 191, 36, 0.3);
+  box-shadow: 0 20px 60px -15px rgba(251, 191, 36, 0.15),
+              0 0 40px -10px rgba(251, 191, 36, 0.1);
+}
+
+.card-hydro::before {
+  background: radial-gradient(ellipse at 50% 0%, rgba(6, 182, 212, 0.12) 0%, transparent 70%);
+}
+.card-hydro:hover {
+  border-color: rgba(6, 182, 212, 0.3);
+  box-shadow: 0 20px 60px -15px rgba(6, 182, 212, 0.15),
+              0 0 40px -10px rgba(6, 182, 212, 0.1);
+}
+
+.card-pt::before {
+  background: radial-gradient(ellipse at 50% 0%, rgba(52, 211, 153, 0.12) 0%, transparent 70%);
+}
+.card-pt:hover {
+  border-color: rgba(52, 211, 153, 0.3);
+  box-shadow: 0 20px 60px -15px rgba(52, 211, 153, 0.15),
+              0 0 40px -10px rgba(52, 211, 153, 0.1);
+}
+
+/* ---------- Card Icon ---------- */
+.card-icon {
+  font-size: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border-radius: 1rem;
+  margin-bottom: 1.25rem;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.4s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.glass-card:hover .card-icon {
+  transform: scale(1.12) rotate(-3deg);
+}
+
+.icon-fitness {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.18), rgba(245, 158, 11, 0.08));
+  box-shadow: 0 4px 20px -4px rgba(251, 191, 36, 0.2);
+}
+
+.icon-hydro {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.18), rgba(34, 211, 238, 0.08));
+  box-shadow: 0 4px 20px -4px rgba(6, 182, 212, 0.2);
+}
+
+.icon-pt {
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.18), rgba(16, 185, 129, 0.08));
+  box-shadow: 0 4px 20px -4px rgba(52, 211, 153, 0.2);
+}
+
+/* ---------- Card Description Reveal ---------- */
+.card-description {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+              opacity 0.4s ease 0.05s;
+  position: relative;
+  z-index: 1;
+}
+
+.glass-card:hover .card-description {
+  max-height: 220px;
+  opacity: 1;
+}
+
+/* ---------- Card Arrow ---------- */
+.card-arrow {
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+              opacity 0.3s ease;
+  opacity: 0.5;
+}
+
+.glass-card:hover .card-arrow {
+  transform: translateX(6px);
+  opacity: 1;
+}
+
+/* ---------- Accent Bars on Cards ---------- */
+.accent-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: 0 0 1.25rem 1.25rem;
+  transform: scaleX(0);
+  transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.glass-card:hover .accent-bar {
+  transform: scaleX(1);
+}
+
+.accent-fitness { background: linear-gradient(90deg, #f59e0b, #f97316); }
+.accent-hydro   { background: linear-gradient(90deg, #06b6d4, #3b82f6); }
+.accent-pt      { background: linear-gradient(90deg, #34d399, #10b981); }
+
+/* ---------- Header Pulse Icon ---------- */
+.pulse-icon {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(52, 211, 153, 0.3)); }
+  50%      { filter: drop-shadow(0 0 18px rgba(52, 211, 153, 0.6)); }
+}
+
+/* ---------- Entrance Animations ---------- */
+.fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.7s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.fade-up-delay-1 { animation-delay: 0.15s; }
+.fade-up-delay-2 { animation-delay: 0.3s; }
+.fade-up-delay-3 { animation-delay: 0.45s; }
+.fade-up-delay-4 { animation-delay: 0.6s; }
+.fade-up-delay-5 { animation-delay: 0.75s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Shimmer Divider ---------- */
+.shimmer-line {
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(52, 211, 153, 0.5) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ---------- Footer ---------- */
+.footer-link {
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #5eead4;
+  text-shadow: 0 0 12px rgba(94, 234, 212, 0.3);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .orb {
+    filter: blur(60px);
+    opacity: 0.15;
+  }
+
+  .orb-1 { width: 280px; height: 280px; }
+  .orb-2 { width: 240px; height: 240px; }
+  .orb-3 { width: 200px; height: 200px; }
+  .orb-4 { width: 180px; height: 180px; }
+
+  .glass-card:hover {
+    transform: translateY(-4px) scale(1.01);
+  }
+
+  .card-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 2.25rem;
+  }
+}
+
+/* ---------- Selection & Scrollbar ---------- */
+::selection {
+  background: rgba(52, 211, 153, 0.3);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(52, 211, 153, 0.3);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(52, 211, 153, 0.5);
+}

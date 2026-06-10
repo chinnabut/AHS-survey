@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>แบบสำรวจความพึงพอใจ | คณะสหเวชศาสตร์</title>
+  <meta name="description" content="แบบสำรวจความพึงพอใจการให้บริการ คณะสหเวชศาสตร์ มหาวิทยาลัยนเรศวร" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/survey.css" />
+</head>
+<body>
+  <!-- Background Decorations -->
+  <div class="bg-decoration">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="survey-container">
+    <!-- Header -->
+    <header class="survey-header">
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+        </svg>
+      </div>
+      <h1>แบบสำรวจความพึงพอใจ</h1>
+      <p class="subtitle">คณะสหเวชศาสตร์ มหาวิทยาลัยนเรศวร</p>
+    </header>
+
+    <!-- Progress -->
+    <div class="progress-section">
+      <div class="step-counter">
+        <span class="step-text" id="step-text">ขั้นตอนที่ 1 จาก 4</span>
+        <span class="step-percentage" id="step-percentage">25%</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progress-fill" style="width: 25%"></div>
+      </div>
+      <div class="step-indicators" id="step-dots"></div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="form-card">
+      <form id="survey-form" autocomplete="off">
+        <div class="form-card-inner">
+
+          <!-- ════════════════════════════════════════════════ -->
+          <!-- SECTION 1: ข้อมูลทั่วไปของผู้มารับบริการ         -->
+          <!-- ════════════════════════════════════════════════ -->
+          <div class="step-section" id="step-section-1">
+            <h2 class="section-title">
+              <span class="section-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+              </span>
+              ข้อมูลทั่วไปของผู้มารับบริการ
+            </h2>
+            <p class="section-description">กรุณากรอกข้อมูลพื้นฐานเพื่อใช้ในการวิเคราะห์ผลสำรวจ</p>
+
+            <!-- Q1: เพศ -->
+            <div class="question-group" id="qg-gender">
+              <span class="question-label"><span class="q-number">1</span>เพศ</span>
+              <div class="radio-group">
+                <div class="radio-option">
+                  <input type="radio" name="gender" id="gender-male" value="ชาย" />
+                  <label for="gender-male"><span class="radio-dot"></span>ชาย</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" name="gender" id="gender-female" value="หญิง" />
+                  <label for="gender-female"><span class="radio-dot"></span>หญิง</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" name="gender" id="gender-unspecified" value="ไม่ระบุ" />
+                  <label for="gender-unspecified"><span class="radio-dot"></span>ไม่ระบุ</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" name="gender" id="gender-other" value="อื่นๆ" data-show-other="gender-other-wrapper" />
+                  <label for="gender-other"><span class="radio-dot"></span>อื่นๆ</label>
+                </div>
+              </div>
+              <div class="other-input-wrapper" id="gender-other-wrapper">
+                <input type="text" name="gender_other" placeholder="โปรดระบุ..." />
+              </div>
+              <div class="validation-error" id="error-gender">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                <span class="error-text"></span>
+              </div>
+            </div>
+
+            <div class="question-divider"></div>
+
+            <!-- Q2: อายุ -->
+            <div class="question-group" id="qg-age">
+              <span class="question-label"><span class="q-number">2</span>อายุ (ปี)</span>
+              <input type="number" name="age" class="number-input" placeholder="กรอกอายุ" min="1" max="120" />
+              <div class="validation-error" id="error-age">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                <span class="error-text"></span>
+              </div>
+            </div>
+
+            <div class="question-divider"></div>
+
+            <!-- Q3: อาชีพ -->
+            <div class="question-group" id="qg-occupation">
+              <span class="question-label"><span class="q-number">3</span>อาชีพ</span>
+              <div class="radio-group">
+                <div class="radio-option">
+                  <input type="radio" name="occupation" id="occ-1" value="ข้าราชการ/พนักงานรัฐวิสาหกิจ" />
+                  <label for="occ-1"><span class="radio-dot"></span>ข้าราชการ/พนักงานรัฐวิสาหกิจ</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" name="occupation" id="occ-2" value="พนักงานมหาวิทยาลัย" />
+                  <label for="occ-2"><span class="radio-dot"></span>พนักงานมหาวิทยาลัย</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" name="occupation" id="occ-3" value="ข้าราชการบำนาญ" />
+                  <label for="occ-3"><span class="radio-dot"></span>ข้าราชการบำนาญ</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" name="occupation" id="occ-4" value="ธุรกิจส่วนตัว/ค้าขาย" />
+                  <label for="occ-4"><span class="radio-dot"></span>ธุรกิจส่วนตัว/ค้าขาย</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" name="occupation" id="occ-5" value="นิสิต" />
+                  <label for="occ-5"><span class="radio-dot"></span>นิสิต</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" name="occupation" id="occ-6" value="ไม่ได้ประกอบอาชีพ" />
+                  <label for="occ-6"><span class="radio-dot"></span>ไม่ได้ประกอบอาชีพ</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" name="occupation" id="occ-other" value="อื่นๆ" data-show-other="occupation-other-wrapper" />
+                  <label for="occ-other"><span class="radio-dot"></span>อื่นๆ</label>
+                </div>
+              </div>
+              <div class="other-input-wrapper" id="occupation-other-wrapper">
+                <input type="text" name="occupation_other" placeholder="โปรดระบุอาชีพ..." />
+              </div>
+              <div class="validation-error" id="error-occupation">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                <span class="error-text"></span>
+              </div>
+            </div>
+
+            <div class="question-divider"></div>
+
+            <!-- Q4: ระยะเวลารอ -->
+            <div class="question-group" id="qg-wait_time">
+              <span class="question-label"><span class="q-number">4</span>ระยะเวลาในการรอรับบริการ</span>
+              <div class="radio-group">
+                <div class="radio-option">
+                  <input type="radio" name="wait_time" id="wt-1" value="น้อยกว่า 15 นาที" />
+                  <label for="wt-1"><span class="radio-dot"></span>น้อยกว่า 15 นาที</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" name="wait_time" id="wt-2" value="15-20 นาที" />
+                  <label for="wt-2"><span class="radio-dot"></span>15-20 นาที</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" name="wait_time" id="wt-3" value="21-30 นาที" />
+                  <label for="wt-3"><span class="radio-dot"></span>21-30 นาที</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" name="wait_time" id="wt-4" value="มากกว่า 30 นาที" />
+                  <label for="wt-4"><span class="radio-dot"></span>มากกว่า 30 นาที</label>
+                </div>
+                <div class="radio-option">
+                  <input type="radio" name="wait_time" id="wt-other" value="อื่นๆ" data-show-other="wait-time-other-wrapper" />
+                  <label for="wt-other"><span class="radio-dot"></span>อื่นๆ</label>
+                </div>
+              </div>
+              <div class="other-input-wrapper" id="wait-time-other-wrapper">
+                <input type="text" name="wait_time_other" placeholder="โปรดระบุ..." />
+              </div>
+              <div class="validation-error" id="error-wait_time">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                <span class="error-text"></span>
+              </div>
+            </div>
+          </div>
+          <!-- END Section 1 -->
+
+
+          <!-- ════════════════════════════════════════════════ -->
+          <!-- SECTION 2: กายภาพบำบัด (Physical Therapy)       -->
+          <!-- ════════════════════════════════════════════════ -->
+          <div class="step-section" id="step-section-2">
+            <h2 class="section-title">
+              <span class="section-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
+              </span>
+              กายภาพบำบัด
+            </h2>
+            <p class="section-description">กรุณาให้คะแนนความพึงพอใจในแต่ละด้านของบริการกายภาพบำบัด</p>
+
+            <!-- Q6: การอำนวยความสะดวก -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">6</span>ระดับความพึงพอใจในด้านการอำนวยความสะดวกในการนัดหมาย</span>
+
+              <div class="rating-question">
+                <p class="sub-question-label">6.1 ความสะดวกในการติดต่อและทำนัดหมายเข้ารับบริการ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q6_1" id="q6_1_5" value="5" /><label for="q6_1_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q6_1" id="q6_1_4" value="4" /><label for="q6_1_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q6_1" id="q6_1_3" value="3" /><label for="q6_1_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q6_1" id="q6_1_2" value="2" /><label for="q6_1_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q6_1" id="q6_1_1" value="1" /><label for="q6_1_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q6_1" id="q6_1_0" value="0" /><label for="q6_1_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">6.2 ความรวดเร็วและความเหมาะสมของวัน-เวลานัดหมายที่ได้รับ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q6_2" id="q6_2_5" value="5" /><label for="q6_2_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q6_2" id="q6_2_4" value="4" /><label for="q6_2_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q6_2" id="q6_2_3" value="3" /><label for="q6_2_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q6_2" id="q6_2_2" value="2" /><label for="q6_2_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q6_2" id="q6_2_1" value="1" /><label for="q6_2_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q6_2" id="q6_2_0" value="0" /><label for="q6_2_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">6.3 ความชัดเจนและความยืดหยุ่นในการจัดการนัดหมาย</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q6_3" id="q6_3_5" value="5" /><label for="q6_3_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q6_3" id="q6_3_4" value="4" /><label for="q6_3_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q6_3" id="q6_3_3" value="3" /><label for="q6_3_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q6_3" id="q6_3_2" value="2" /><label for="q6_3_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q6_3" id="q6_3_1" value="1" /><label for="q6_3_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q6_3" id="q6_3_0" value="0" /><label for="q6_3_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-divider"></div>
+
+            <!-- Q7: การให้บริการของนักกายภาพบำบัด -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">7</span>ระดับความพึงพอใจในการให้บริการของนักกายภาพบำบัด</span>
+
+              <div class="rating-question">
+                <p class="sub-question-label">7.1 มีความสุภาพ มีกริยามารยาท มีจิตบริการ กระตือรือร้นในการบริการ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q7_1" id="q7_1_5" value="5" /><label for="q7_1_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q7_1" id="q7_1_4" value="4" /><label for="q7_1_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q7_1" id="q7_1_3" value="3" /><label for="q7_1_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q7_1" id="q7_1_2" value="2" /><label for="q7_1_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q7_1" id="q7_1_1" value="1" /><label for="q7_1_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q7_1" id="q7_1_0" value="0" /><label for="q7_1_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">7.2 เปิดโอกาสให้ผู้ใช้บริการได้มีโอกาสซักถาม และตอบคำถามได้อย่างเหมาะสม</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q7_2" id="q7_2_5" value="5" /><label for="q7_2_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q7_2" id="q7_2_4" value="4" /><label for="q7_2_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q7_2" id="q7_2_3" value="3" /><label for="q7_2_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q7_2" id="q7_2_2" value="2" /><label for="q7_2_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q7_2" id="q7_2_1" value="1" /><label for="q7_2_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q7_2" id="q7_2_0" value="0" /><label for="q7_2_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">7.3 ความชัดเจนในการอธิบายชี้แจงปัญหา แนะนำวิธีการบำบัดรักษาได้อย่างถูกต้อง น่าเชื่อถือ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q7_3" id="q7_3_5" value="5" /><label for="q7_3_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q7_3" id="q7_3_4" value="4" /><label for="q7_3_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q7_3" id="q7_3_3" value="3" /><label for="q7_3_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q7_3" id="q7_3_2" value="2" /><label for="q7_3_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q7_3" id="q7_3_1" value="1" /><label for="q7_3_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q7_3" id="q7_3_0" value="0" /><label for="q7_3_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">7.4 ผู้ให้การบำบัดรักษามีความรู้ ทักษะ ความสามารถ เป็นที่พึ่ง/ปรึกษาได้</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q7_4" id="q7_4_5" value="5" /><label for="q7_4_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q7_4" id="q7_4_4" value="4" /><label for="q7_4_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q7_4" id="q7_4_3" value="3" /><label for="q7_4_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q7_4" id="q7_4_2" value="2" /><label for="q7_4_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q7_4" id="q7_4_1" value="1" /><label for="q7_4_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q7_4" id="q7_4_0" value="0" /><label for="q7_4_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">7.5 การบำบัดรักษาที่ได้รับประสิทธิภาพ สามารถช่วยแก้ปัญหาของท่าน</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q7_5" id="q7_5_5" value="5" /><label for="q7_5_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q7_5" id="q7_5_4" value="4" /><label for="q7_5_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q7_5" id="q7_5_3" value="3" /><label for="q7_5_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q7_5" id="q7_5_2" value="2" /><label for="q7_5_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q7_5" id="q7_5_1" value="1" /><label for="q7_5_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q7_5" id="q7_5_0" value="0" /><label for="q7_5_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">7.6 ความพึงพอใจในภาพรวมต่อการบำบัดรักษาและบริการที่ได้รับ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q7_6" id="q7_6_5" value="5" /><label for="q7_6_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q7_6" id="q7_6_4" value="4" /><label for="q7_6_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q7_6" id="q7_6_3" value="3" /><label for="q7_6_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q7_6" id="q7_6_2" value="2" /><label for="q7_6_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q7_6" id="q7_6_1" value="1" /><label for="q7_6_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q7_6" id="q7_6_0" value="0" /><label for="q7_6_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="validation-error" id="error-section2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+              <span class="error-text"></span>
+            </div>
+          </div>
+          <!-- END Section 2 -->
+
+
+          <!-- ════════════════════════════════════════════════ -->
+          <!-- SECTION 3: ฟิตเนสและซาวน่า (Fitness & Sauna)    -->
+          <!-- ════════════════════════════════════════════════ -->
+          <div class="step-section" id="step-section-3">
+            <h2 class="section-title">
+              <span class="section-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" /></svg>
+              </span>
+              ฟิตเนสและซาวน่า
+            </h2>
+            <p class="section-description">กรุณาให้คะแนนความพึงพอใจในแต่ละด้านของบริการฟิตเนสและซาวน่า</p>
+
+            <!-- Q8: การอำนวยความสะดวก -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">8</span>ระดับความพึงพอใจในด้านการอำนวยความสะดวกในการนัดหมาย</span>
+
+              <div class="rating-question">
+                <p class="sub-question-label">8.1 ความสะดวกในการติดต่อและทำนัดหมายเข้ารับบริการ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q8_1" id="q8_1_5" value="5" /><label for="q8_1_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q8_1" id="q8_1_4" value="4" /><label for="q8_1_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q8_1" id="q8_1_3" value="3" /><label for="q8_1_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q8_1" id="q8_1_2" value="2" /><label for="q8_1_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q8_1" id="q8_1_1" value="1" /><label for="q8_1_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q8_1" id="q8_1_0" value="0" /><label for="q8_1_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">8.2 ความรวดเร็วและความเหมาะสมของวัน-เวลานัดหมายที่ได้รับ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q8_2" id="q8_2_5" value="5" /><label for="q8_2_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q8_2" id="q8_2_4" value="4" /><label for="q8_2_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q8_2" id="q8_2_3" value="3" /><label for="q8_2_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q8_2" id="q8_2_2" value="2" /><label for="q8_2_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q8_2" id="q8_2_1" value="1" /><label for="q8_2_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q8_2" id="q8_2_0" value="0" /><label for="q8_2_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">8.3 ความชัดเจนและความยืดหยุ่นในการจัดการนัดหมาย</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q8_3" id="q8_3_5" value="5" /><label for="q8_3_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q8_3" id="q8_3_4" value="4" /><label for="q8_3_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q8_3" id="q8_3_3" value="3" /><label for="q8_3_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q8_3" id="q8_3_2" value="2" /><label for="q8_3_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q8_3" id="q8_3_1" value="1" /><label for="q8_3_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q8_3" id="q8_3_0" value="0" /><label for="q8_3_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-divider"></div>
+
+            <!-- Q9: การให้บริการเจ้าหน้าที่ -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">9</span>ระดับความพึงพอใจในการให้บริการเจ้าหน้าที่</span>
+
+              <div class="rating-question">
+                <p class="sub-question-label">9.1 มีความสุภาพ มีกริยามารยาท มีจิตบริการ กระตือรือร้นในการบริการ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q9_1" id="q9_1_5" value="5" /><label for="q9_1_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q9_1" id="q9_1_4" value="4" /><label for="q9_1_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q9_1" id="q9_1_3" value="3" /><label for="q9_1_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q9_1" id="q9_1_2" value="2" /><label for="q9_1_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q9_1" id="q9_1_1" value="1" /><label for="q9_1_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q9_1" id="q9_1_0" value="0" /><label for="q9_1_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">9.2 เปิดโอกาสให้ผู้ใช้บริการได้มีโอกาสซักถาม และตอบคำถามได้อย่างเหมาะสม</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q9_2" id="q9_2_5" value="5" /><label for="q9_2_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q9_2" id="q9_2_4" value="4" /><label for="q9_2_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q9_2" id="q9_2_3" value="3" /><label for="q9_2_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q9_2" id="q9_2_2" value="2" /><label for="q9_2_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q9_2" id="q9_2_1" value="1" /><label for="q9_2_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q9_2" id="q9_2_0" value="0" /><label for="q9_2_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">9.3 ความชัดเจนในการอธิบายชี้แจงปัญหา แนะนำวิธีการบำบัดรักษาได้อย่างถูกต้อง น่าเชื่อถือ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q9_3" id="q9_3_5" value="5" /><label for="q9_3_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q9_3" id="q9_3_4" value="4" /><label for="q9_3_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q9_3" id="q9_3_3" value="3" /><label for="q9_3_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q9_3" id="q9_3_2" value="2" /><label for="q9_3_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q9_3" id="q9_3_1" value="1" /><label for="q9_3_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q9_3" id="q9_3_0" value="0" /><label for="q9_3_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">9.4 ความพึงพอใจในภาพรวมต่อการบำบัดรักษาและบริการที่ได้รับ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q9_4" id="q9_4_5" value="5" /><label for="q9_4_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q9_4" id="q9_4_4" value="4" /><label for="q9_4_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q9_4" id="q9_4_3" value="3" /><label for="q9_4_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q9_4" id="q9_4_2" value="2" /><label for="q9_4_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q9_4" id="q9_4_1" value="1" /><label for="q9_4_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q9_4" id="q9_4_0" value="0" /><label for="q9_4_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="validation-error" id="error-section3">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+              <span class="error-text"></span>
+            </div>
+          </div>
+          <!-- END Section 3 -->
+
+
+          <!-- ════════════════════════════════════════════════ -->
+          <!-- SECTION 4: ธาราบำบัด (Hydrotherapy)             -->
+          <!-- ════════════════════════════════════════════════ -->
+          <div class="step-section" id="step-section-4">
+            <h2 class="section-title">
+              <span class="section-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
+              </span>
+              ธาราบำบัด
+            </h2>
+            <p class="section-description">กรุณาให้คะแนนความพึงพอใจในแต่ละด้านของบริการธาราบำบัด</p>
+
+            <!-- Q10: การอำนวยความสะดวก -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">10</span>ระดับความพึงพอใจในด้านการอำนวยความสะดวก</span>
+
+              <div class="rating-question">
+                <p class="sub-question-label">10.1 ความสะดวกในการติดต่อและทำนัดหมายเข้ารับบริการ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q10_1" id="q10_1_5" value="5" /><label for="q10_1_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q10_1" id="q10_1_4" value="4" /><label for="q10_1_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q10_1" id="q10_1_3" value="3" /><label for="q10_1_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q10_1" id="q10_1_2" value="2" /><label for="q10_1_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q10_1" id="q10_1_1" value="1" /><label for="q10_1_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q10_1" id="q10_1_0" value="0" /><label for="q10_1_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">10.2 ความรวดเร็วและความเหมาะสมของวัน-เวลานัดหมายที่ได้รับ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q10_2" id="q10_2_5" value="5" /><label for="q10_2_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q10_2" id="q10_2_4" value="4" /><label for="q10_2_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q10_2" id="q10_2_3" value="3" /><label for="q10_2_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q10_2" id="q10_2_2" value="2" /><label for="q10_2_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q10_2" id="q10_2_1" value="1" /><label for="q10_2_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q10_2" id="q10_2_0" value="0" /><label for="q10_2_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">10.3 ความชัดเจนและความยืดหยุ่นในการจัดการนัดหมาย</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q10_3" id="q10_3_5" value="5" /><label for="q10_3_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q10_3" id="q10_3_4" value="4" /><label for="q10_3_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q10_3" id="q10_3_3" value="3" /><label for="q10_3_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q10_3" id="q10_3_2" value="2" /><label for="q10_3_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q10_3" id="q10_3_1" value="1" /><label for="q10_3_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q10_3" id="q10_3_0" value="0" /><label for="q10_3_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-divider"></div>
+
+            <!-- Q11: การให้บริการเจ้าหน้าที่ -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">11</span>ระดับความพึงพอใจในการให้บริการเจ้าหน้าที่</span>
+
+              <div class="rating-question">
+                <p class="sub-question-label">11.1 มีความสุภาพ มีกริยามารยาท มีจิตบริการ กระตือรือร้นในการบริการ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q11_1" id="q11_1_5" value="5" /><label for="q11_1_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q11_1" id="q11_1_4" value="4" /><label for="q11_1_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q11_1" id="q11_1_3" value="3" /><label for="q11_1_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q11_1" id="q11_1_2" value="2" /><label for="q11_1_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q11_1" id="q11_1_1" value="1" /><label for="q11_1_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q11_1" id="q11_1_0" value="0" /><label for="q11_1_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">11.2 เปิดโอกาสให้ผู้ใช้บริการได้มีโอกาสซักถาม และตอบคำถามได้อย่างเหมาะสม</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q11_2" id="q11_2_5" value="5" /><label for="q11_2_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q11_2" id="q11_2_4" value="4" /><label for="q11_2_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q11_2" id="q11_2_3" value="3" /><label for="q11_2_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q11_2" id="q11_2_2" value="2" /><label for="q11_2_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q11_2" id="q11_2_1" value="1" /><label for="q11_2_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q11_2" id="q11_2_0" value="0" /><label for="q11_2_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">11.3 ความชัดเจนในการอธิบายชี้แจงปัญหา แนะนำวิธีการบำบัดรักษาได้อย่างถูกต้อง น่าเชื่อถือ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q11_3" id="q11_3_5" value="5" /><label for="q11_3_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q11_3" id="q11_3_4" value="4" /><label for="q11_3_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q11_3" id="q11_3_3" value="3" /><label for="q11_3_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q11_3" id="q11_3_2" value="2" /><label for="q11_3_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q11_3" id="q11_3_1" value="1" /><label for="q11_3_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q11_3" id="q11_3_0" value="0" /><label for="q11_3_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">11.4 ความพึงพอใจในภาพรวมต่อการบำบัดรักษาและบริการที่ได้รับ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q11_4" id="q11_4_5" value="5" /><label for="q11_4_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q11_4" id="q11_4_4" value="4" /><label for="q11_4_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q11_4" id="q11_4_3" value="3" /><label for="q11_4_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q11_4" id="q11_4_2" value="2" /><label for="q11_4_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q11_4" id="q11_4_1" value="1" /><label for="q11_4_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q11_4" id="q11_4_0" value="0" /><label for="q11_4_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="validation-error" id="error-section4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+              <span class="error-text"></span>
+            </div>
+          </div>
+          <!-- END Section 4 -->
+
+
+          <!-- ════════════════════════════════════════════════ -->
+          <!-- SECTION 5: สิ่งอำนวยความสะดวกและความปลอดภัย     -->
+          <!-- ════════════════════════════════════════════════ -->
+          <div class="step-section" id="step-section-5">
+            <h2 class="section-title">
+              <span class="section-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+              </span>
+              สิ่งอำนวยความสะดวกและความปลอดภัย
+            </h2>
+            <p class="section-description">กรุณาให้คะแนนความพึงพอใจด้านสถานที่และสิ่งอำนวยความสะดวก</p>
+
+            <!-- Q12: สถานที่และสิ่งอำนวยความสะดวก -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">12</span>ระดับความพึงพอใจด้านสถานที่และสิ่งอำนวยความสะดวก</span>
+
+              <div class="rating-question">
+                <p class="sub-question-label">12.1 ความสะอาดและความเป็นระเบียบของสถานที่</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q12_1" id="q12_1_5" value="5" /><label for="q12_1_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q12_1" id="q12_1_4" value="4" /><label for="q12_1_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q12_1" id="q12_1_3" value="3" /><label for="q12_1_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q12_1" id="q12_1_2" value="2" /><label for="q12_1_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q12_1" id="q12_1_1" value="1" /><label for="q12_1_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q12_1" id="q12_1_0" value="0" /><label for="q12_1_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">12.2 ความสะดวกในการเข้าถึงและการใช้บริการ (ทางเข้า ที่จอดรถ พื้นที่รอรับบริการ)</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q12_2" id="q12_2_5" value="5" /><label for="q12_2_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q12_2" id="q12_2_4" value="4" /><label for="q12_2_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q12_2" id="q12_2_3" value="3" /><label for="q12_2_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q12_2" id="q12_2_2" value="2" /><label for="q12_2_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q12_2" id="q12_2_1" value="1" /><label for="q12_2_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q12_2" id="q12_2_0" value="0" /><label for="q12_2_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">12.3 ความพร้อมและความเหมาะสมของอุปกรณ์/สิ่งอำนวยความสะดวก</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q12_3" id="q12_3_5" value="5" /><label for="q12_3_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q12_3" id="q12_3_4" value="4" /><label for="q12_3_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q12_3" id="q12_3_3" value="3" /><label for="q12_3_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q12_3" id="q12_3_2" value="2" /><label for="q12_3_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q12_3" id="q12_3_1" value="1" /><label for="q12_3_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q12_3" id="q12_3_0" value="0" /><label for="q12_3_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">12.4 ความสวยงามและความน่าใช้งานของพื้นที่</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q12_4" id="q12_4_5" value="5" /><label for="q12_4_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q12_4" id="q12_4_4" value="4" /><label for="q12_4_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q12_4" id="q12_4_3" value="3" /><label for="q12_4_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q12_4" id="q12_4_2" value="2" /><label for="q12_4_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q12_4" id="q12_4_1" value="1" /><label for="q12_4_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q12_4" id="q12_4_0" value="0" /><label for="q12_4_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">12.5 บรรยากาศมีความผ่อนคลายเหมาะสมต่อการฟื้นฟูสุขภาพ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q12_5" id="q12_5_5" value="5" /><label for="q12_5_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q12_5" id="q12_5_4" value="4" /><label for="q12_5_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q12_5" id="q12_5_3" value="3" /><label for="q12_5_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q12_5" id="q12_5_2" value="2" /><label for="q12_5_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q12_5" id="q12_5_1" value="1" /><label for="q12_5_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q12_5" id="q12_5_0" value="0" /><label for="q12_5_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">12.6 ความเงียบสงบและความเป็นส่วนตัวในการรับบริการ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q12_6" id="q12_6_5" value="5" /><label for="q12_6_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q12_6" id="q12_6_4" value="4" /><label for="q12_6_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q12_6" id="q12_6_3" value="3" /><label for="q12_6_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q12_6" id="q12_6_2" value="2" /><label for="q12_6_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q12_6" id="q12_6_1" value="1" /><label for="q12_6_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q12_6" id="q12_6_0" value="0" /><label for="q12_6_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">12.7 ความมั่นใจในความสะอาดและสุขอนามัยของสถานที่และอุปกรณ์</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q12_7" id="q12_7_5" value="5" /><label for="q12_7_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q12_7" id="q12_7_4" value="4" /><label for="q12_7_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q12_7" id="q12_7_3" value="3" /><label for="q12_7_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q12_7" id="q12_7_2" value="2" /><label for="q12_7_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q12_7" id="q12_7_1" value="1" /><label for="q12_7_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q12_7" id="q12_7_0" value="0" /><label for="q12_7_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">12.8 ความปลอดภัยของพื้นที่และอุปกรณ์ระหว่างใช้บริการ</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q12_8" id="q12_8_5" value="5" /><label for="q12_8_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q12_8" id="q12_8_4" value="4" /><label for="q12_8_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q12_8" id="q12_8_3" value="3" /><label for="q12_8_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q12_8" id="q12_8_2" value="2" /><label for="q12_8_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q12_8" id="q12_8_1" value="1" /><label for="q12_8_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q12_8" id="q12_8_0" value="0" /><label for="q12_8_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+
+              <div class="rating-question">
+                <p class="sub-question-label">12.9 ความมั่นใจต่อการดูแลสุขภาพและการช่วยเหลือกรณีฉุกเฉิน</p>
+                <div class="rating-scale">
+                  <div class="rating-pill" data-score="5"><input type="radio" name="q12_9" id="q12_9_5" value="5" /><label for="q12_9_5"><span class="score">5</span><span class="score-label">มากที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="4"><input type="radio" name="q12_9" id="q12_9_4" value="4" /><label for="q12_9_4"><span class="score">4</span><span class="score-label">มาก</span></label></div>
+                  <div class="rating-pill" data-score="3"><input type="radio" name="q12_9" id="q12_9_3" value="3" /><label for="q12_9_3"><span class="score">3</span><span class="score-label">ปานกลาง</span></label></div>
+                  <div class="rating-pill" data-score="2"><input type="radio" name="q12_9" id="q12_9_2" value="2" /><label for="q12_9_2"><span class="score">2</span><span class="score-label">น้อย</span></label></div>
+                  <div class="rating-pill" data-score="1"><input type="radio" name="q12_9" id="q12_9_1" value="1" /><label for="q12_9_1"><span class="score">1</span><span class="score-label">น้อยที่สุด</span></label></div>
+                  <div class="rating-pill" data-score="0"><input type="radio" name="q12_9" id="q12_9_0" value="0" /><label for="q12_9_0"><span class="score">0</span><span class="score-label">ไม่พึงพอใจ</span></label></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="validation-error" id="error-section5">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+              <span class="error-text"></span>
+            </div>
+          </div>
+          <!-- END Section 5 -->
+
+
+          <!-- ════════════════════════════════════════════════ -->
+          <!-- SECTION 6: ข้อเสนอแนะและความคาดหวัง             -->
+          <!-- ════════════════════════════════════════════════ -->
+          <div class="step-section" id="step-section-6">
+            <h2 class="section-title">
+              <span class="section-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 011.037-.443 48.282 48.282 0 005.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
+              </span>
+              ข้อเสนอแนะและความคาดหวัง
+            </h2>
+            <p class="section-description">กรุณาแสดงความคิดเห็นและความคาดหวังของท่าน</p>
+
+            <!-- Q13 -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">13</span>คุณมีเรื่องที่ต้องการแนะนำการให้บริการที่ 'เหนือกว่าความคาดหมาย'</span>
+              <textarea name="q13" class="textarea-input" placeholder="พิมพ์ข้อเสนอแนะของท่าน..." rows="3"></textarea>
+            </div>
+
+            <div class="question-divider"></div>
+
+            <!-- Q14 -->
+            <div class="question-group" id="qg-q14">
+              <span class="question-label"><span class="q-number">14</span>คุณทราบข่าวสารจากแหล่งใดบ้าง <span style="font-weight:400;font-size:0.78rem;color:#94a3b8;">(เลือกได้สูงสุด 3 ข้อ)</span></span>
+              <span id="q14-counter" style="display:block;font-size:0.75rem;color:#94a3b8;margin-bottom:8px;font-weight:500;"></span>
+              <div class="checkbox-group">
+                <div class="checkbox-option">
+                  <input type="checkbox" name="q14" id="q14-1" value="เคยมาใช้บริการ" />
+                  <label for="q14-1"><span class="checkbox-dot"></span>เคยมาใช้บริการ</label>
+                </div>
+                <div class="checkbox-option">
+                  <input type="checkbox" name="q14" id="q14-2" value="เพื่อน หรือคนรู้จักแนะนำ" />
+                  <label for="q14-2"><span class="checkbox-dot"></span>เพื่อน หรือคนรู้จักแนะนำ</label>
+                </div>
+                <div class="checkbox-option">
+                  <input type="checkbox" name="q14" id="q14-3" value="บุคลากรในมหาวิทยาลัยนเรศวรแนะนำ" />
+                  <label for="q14-3"><span class="checkbox-dot"></span>บุคลากรในมหาวิทยาลัยนเรศวรแนะนำ</label>
+                </div>
+                <div class="checkbox-option">
+                  <input type="checkbox" name="q14" id="q14-4" value="เว็บไซต์ของคณะสหเวชศาสตร์ มหาวิทยาลัยนเรศวร" />
+                  <label for="q14-4"><span class="checkbox-dot"></span>เว็บไซต์ของคณะสหเวชศาสตร์ มหาวิทยาลัยนเรศวร</label>
+                </div>
+                <div class="checkbox-option">
+                  <input type="checkbox" name="q14" id="q14-5" value="Facebook คณะสหเวชศาสตร์ มหาวิทยาลัยนเรศวร" />
+                  <label for="q14-5"><span class="checkbox-dot"></span>Facebook คณะสหเวชศาสตร์ มหาวิทยาลัยนเรศวร</label>
+                </div>
+                <div class="checkbox-option">
+                  <input type="checkbox" name="q14" id="q14-6" value="Facebook healthclubmornor" />
+                  <label for="q14-6"><span class="checkbox-dot"></span>Facebook healthclubmornor</label>
+                </div>
+                <div class="checkbox-option">
+                  <input type="checkbox" name="q14" id="q14-7" value="ป้ายประชาสัมพันธ์" />
+                  <label for="q14-7"><span class="checkbox-dot"></span>ป้ายประชาสัมพันธ์</label>
+                </div>
+                <div class="checkbox-option">
+                  <input type="checkbox" name="q14" id="q14-other" value="อื่นๆ" data-show-other="q14-other-wrapper" />
+                  <label for="q14-other"><span class="checkbox-dot"></span>อื่นๆ</label>
+                </div>
+              </div>
+              <div class="other-input-wrapper" id="q14-other-wrapper">
+                <input type="text" name="q14_other" placeholder="โปรดระบุ..." />
+              </div>
+              <div class="validation-error" id="error-q14">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                <span class="error-text"></span>
+              </div>
+            </div>
+
+            <div class="question-divider"></div>
+
+            <!-- Q15: ความคาดหวังก่อน -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">15</span>ระดับความคาดหวัง "ก่อน" เข้ารับบริการ</span>
+              <div class="slider-container">
+                <div class="slider-value-display">
+                  <span class="value-num" id="q15-display">5</span>
+                </div>
+                <input type="range" name="q15" class="range-slider" min="0" max="10" value="5" data-display="q15-display" />
+                <div class="slider-labels">
+                  <span>0 = น้อยที่สุด</span>
+                  <span>10 = มากที่สุด</span>
+                </div>
+                <div class="slider-ticks">
+                  <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-divider"></div>
+
+            <!-- Q16: ความคาดหวังหลัง -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">16</span>ระดับความคาดหวัง "หลัง" เข้ารับบริการ</span>
+              <div class="slider-container">
+                <div class="slider-value-display">
+                  <span class="value-num" id="q16-display">5</span>
+                </div>
+                <input type="range" name="q16" class="range-slider" min="0" max="10" value="5" data-display="q16-display" />
+                <div class="slider-labels">
+                  <span>0 = น้อยที่สุด</span>
+                  <span>10 = มากที่สุด</span>
+                </div>
+                <div class="slider-ticks">
+                  <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-divider"></div>
+
+            <!-- Q17 -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">17</span>มีบริการหรือความช่วยเหลือใดที่คุณรู้สึกประทับใจเกินความคาดหมาย</span>
+              <textarea name="q17" class="textarea-input" placeholder="พิมพ์ความประทับใจของท่าน..." rows="3"></textarea>
+            </div>
+
+            <div class="question-divider"></div>
+
+            <!-- Q18: ต้องการบริการเพิ่มเติม -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">18</span>คุณต้องการได้รับบริการจากเราเพิ่มเติม (เช่น บริการอื่นๆ เครื่องมือ หรืออุปกรณ์) ในเรื่องใด <span style="font-weight:400;font-size:0.78rem;color:#94a3b8;">(ถ้ามี)</span></span>
+              <textarea name="q18" class="textarea-input" placeholder="พิมพ์บริการที่ท่านต้องการเพิ่มเติม..." rows="3"></textarea>
+            </div>
+
+            <div class="question-divider"></div>
+
+            <!-- Q19: แนะนำผู้อื่น -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">19</span>มีความเป็นไปได้มากน้อยเพียงใดที่คุณจะแนะนำให้ผู้อื่นมารับบริการที่ Healthclubmornor</span>
+              <div class="slider-container">
+                <div class="slider-value-display">
+                  <span class="value-num" id="q19-display">5</span>
+                </div>
+                <input type="range" name="q19" class="range-slider" min="0" max="10" value="5" data-display="q19-display" />
+                <div class="slider-labels">
+                  <span>0 = น้อยที่สุด</span>
+                  <span>10 = มากที่สุด</span>
+                </div>
+                <div class="slider-ticks">
+                  <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="question-divider"></div>
+
+            <!-- Q20: เหตุผลให้คะแนน -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">20</span>อะไรคือเหตุผลสำคัญที่ทำให้ท่านให้คะแนนดังกล่าว</span>
+              <textarea name="q20" class="textarea-input" placeholder="พิมพ์เหตุผลของท่าน..." rows="3"></textarea>
+            </div>
+
+            <div class="question-divider"></div>
+
+            <!-- Q21: กลับมาใช้บริการซ้ำ -->
+            <div class="question-group">
+              <span class="question-label"><span class="q-number">21</span>มีความเป็นไปได้มากน้อยเพียงใดที่คุณจะใช้บริการใหม่ๆ ของ healthclubmornor</span>
+              <div class="slider-container">
+                <div class="slider-value-display">
+                  <span class="value-num" id="q21-display">5</span>
+                </div>
+                <input type="range" name="q21" class="range-slider" min="0" max="10" value="5" data-display="q21-display" />
+                <div class="slider-labels">
+                  <span>0 = น้อยที่สุด</span>
+                  <span>10 = มากที่สุด</span>
+                </div>
+                <div class="slider-ticks">
+                  <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END Section 6 -->
+
+        </div><!-- /.form-card-inner -->
+
+        <!-- Navigation -->
+        <div class="form-navigation">
+          <button type="button" class="btn btn-prev" id="btn-prev" disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+            <span>ย้อนกลับ</span>
+          </button>
+          <button type="button" class="btn btn-next" id="btn-next">
+            <span>ถัดไป</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+          </button>
+          <button type="button" class="btn btn-submit" id="btn-submit" style="display: none;">
+            <span class="btn-text">ส่งแบบสำรวจ</span>
+            <span class="spinner"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
+          </button>
+        </div>
+      </form>
+    </div><!-- /.form-card -->
+  </div><!-- /.survey-container -->
+
+  <!-- Thank You Modal -->
+  <div class="modal-overlay" id="thank-you-modal">
+    <div class="modal-content">
+      <div class="modal-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+      </div>
+      <h2>ขอบคุณค่ะ!</h2>
+      <p>ขอบคุณที่สละเวลาตอบแบบสำรวจ ความคิดเห็นของท่านมีความสำคัญอย่างยิ่งในการพัฒนาบริการของเรา</p>
+      <button class="modal-btn" id="modal-close-btn">
+        <span>กลับหน้าหลัก</span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="js/survey.js"></script>
+</body>
+</html>

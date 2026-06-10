@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spec & Plan — ระบบแบบสำรวจความพึงพอใจ คณะสหเวชศาสตร์</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary: #0f172a;
+      --bg-card: #1e293b;
+      --bg-code: #0d1117;
+      --border: #334155;
+      --text-primary: #e2e8f0;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-teal: #14b8a6;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-cyan: #06b6d4;
+      --accent-red: #f43f5e;
+      --accent-purple: #8b5cf6;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Sidebar Navigation ── */
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0;
+      width: 280px; background: #111827;
+      border-right: 1px solid var(--border);
+      overflow-y: auto; z-index: 50;
+      padding: 1.5rem 0;
+    }
+    .sidebar-header {
+      padding: 0 1.25rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1rem;
+    }
+    .sidebar-header h2 {
+      font-size: 0.875rem; font-weight: 700;
+      color: var(--accent-teal);
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .sidebar-header p {
+      font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;
+    }
+    .nav-group { padding: 0 0.75rem; margin-bottom: 1rem; }
+    .nav-group-title {
+      font-size: 0.625rem; font-weight: 600;
+      color: var(--text-muted); text-transform: uppercase;
+      letter-spacing: 0.15em; padding: 0 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .nav-link {
+      display: block; padding: 0.4rem 0.75rem;
+      font-size: 0.8rem; color: var(--text-secondary);
+      text-decoration: none; border-radius: 0.375rem;
+      transition: all 0.2s;
+    }
+    .nav-link:hover { background: rgba(20,184,166,0.1); color: var(--text-primary); }
+    .nav-link.sub { padding-left: 1.5rem; font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ── Main Content ── */
+    .main { margin-left: 280px; max-width: 900px; padding: 2rem 3rem 6rem; }
+
+    /* ── Cover Section ── */
+    .cover {
+      text-align: center; padding: 3rem 2rem;
+      background: linear-gradient(135deg, rgba(20,184,166,0.1), rgba(16,185,129,0.05));
+      border: 1px solid rgba(20,184,166,0.2);
+      border-radius: 1rem; margin-bottom: 3rem;
+    }
+    .cover-badge {
+      display: inline-block; font-size: 0.65rem; font-weight: 600;
+      color: var(--accent-teal); background: rgba(20,184,166,0.15);
+      padding: 0.25rem 0.75rem; border-radius: 9999px;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+    .cover h1 {
+      font-size: 1.75rem; font-weight: 800;
+      background: linear-gradient(135deg, #5eead4, #14b8a6, #10b981);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+    .cover .subtitle { font-size: 1.1rem; color: var(--text-primary); font-weight: 600; }
+    .cover .org { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem; }
+    .cover .meta {
+      display: flex; gap: 1.5rem; justify-content: center;
+      margin-top: 1.5rem; font-size: 0.75rem; color: var(--text-muted);
+    }
+    .cover .meta span { display: flex; align-items: center; gap: 0.35rem; }
+
+    /* ── Section Headings ── */
+    .section { margin-bottom: 3rem; scroll-margin-top: 2rem; }
+    .section h2 {
+      font-size: 1.25rem; font-weight: 700; color: var(--text-primary);
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid;
+      border-image: linear-gradient(90deg, var(--accent-teal), transparent) 1;
+      margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .section h3 {
+      font-size: 1rem; font-weight: 600; color: var(--accent-emerald);
+      margin: 1.5rem 0 0.75rem; display: flex; align-items: center; gap: 0.4rem;
+    }
+    .section h4 {
+      font-size: 0.875rem; font-weight: 600; color: var(--text-primary);
+      margin: 1rem 0 0.5rem;
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 0.75rem; padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .card-accent {
+      border-left: 3px solid var(--accent-teal);
+    }
+    .card-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 0.75rem;
+    }
+    .mini-card {
+      background: rgba(30,41,59,0.5); border: 1px solid var(--border);
+      border-radius: 0.5rem; padding: 1rem;
+    }
+    .mini-card .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .mini-card h4 { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+    .mini-card p { font-size: 0.75rem; color: var(--text-secondary); }
+
+    /* ── Tables ── */
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.8rem; margin: 0.75rem 0;
+    }
+    thead th {
+      text-align: left; padding: 0.6rem 0.75rem;
+      background: rgba(20,184,166,0.1);
+      color: var(--accent-teal); font-weight: 600;
+      font-size: 0.7rem; text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
+    }
+    tbody td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid rgba(51,65,85,0.5);
+      color: var(--text-secondary);
+    }
+    tbody tr:hover td { background: rgba(30,41,59,0.5); }
+    .col-name { color: var(--text-primary); font-weight: 500; }
+
+    /* ── Code ── */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; background: var(--bg-code);
+      padding: 0.15rem 0.4rem; border-radius: 0.25rem;
+      color: #7dd3fc;
+    }
+    pre {
+      background: var(--bg-code); border: 1px solid var(--border);
+      border-radius: 0.5rem; padding: 1rem;
+      overflow-x: auto; font-size: 0.75rem;
+      line-height: 1.6; margin: 0.75rem 0;
+    }
+    pre code { background: none; padding: 0; color: #e2e8f0; }
+
+    /* ── Tags & Badges ── */
+    .tag {
+      display: inline-block; font-size: 0.6rem; font-weight: 600;
+      padding: 0.15rem 0.5rem; border-radius: 9999px;
+    }
+    .tag-teal { background: rgba(20,184,166,0.15); color: #5eead4; }
+    .tag-amber { background: rgba(245,158,11,0.15); color: #fbbf24; }
+    .tag-cyan { background: rgba(6,182,212,0.15); color: #22d3ee; }
+    .tag-emerald { background: rgba(16,185,129,0.15); color: #34d399; }
+    .tag-red { background: rgba(244,63,94,0.15); color: #fb7185; }
+    .tag-purple { background: rgba(139,92,246,0.15); color: #a78bfa; }
+
+    /* ── Flow Diagram ── */
+    .flow {
+      display: flex; align-items: center; gap: 0.5rem;
+      flex-wrap: wrap; margin: 0.75rem 0;
+    }
+    .flow-step {
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 0.4rem 0.75rem; border-radius: 0.5rem;
+      font-size: 0.75rem; font-weight: 500;
+    }
+    .flow-arrow { color: var(--accent-teal); font-weight: 700; }
+
+    /* ── Alert Boxes ── */
+    .alert {
+      padding: 0.75rem 1rem; border-radius: 0.5rem;
+      font-size: 0.8rem; margin: 0.75rem 0;
+      display: flex; align-items: flex-start; gap: 0.5rem;
+    }
+    .alert-info { background: rgba(6,182,212,0.1); border-left: 3px solid var(--accent-cyan); }
+    .alert-warn { background: rgba(245,158,11,0.1); border-left: 3px solid var(--accent-amber); }
+    .alert-important { background: rgba(139,92,246,0.1); border-left: 3px solid var(--accent-purple); }
+
+    /* ── KPI Card ── */
+    .kpi-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.75rem; margin: 0.75rem 0;
+    }
+    .kpi-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 0.75rem; padding: 1rem;
+      border-top: 3px solid var(--accent-teal);
+    }
+    .kpi-card .kpi-id {
+      font-size: 0.6rem; color: var(--accent-teal);
+      font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.1em; margin-bottom: 0.25rem;
+    }
+    .kpi-card .kpi-name { font-size: 0.8rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .kpi-card .kpi-formula {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; color: #7dd3fc;
+      background: var(--bg-code); padding: 0.4rem 0.6rem;
+      border-radius: 0.375rem;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 1.5rem; }
+      .cover h1 { font-size: 1.25rem; }
+      .card-grid { grid-template-columns: 1fr; }
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Print ── */
+    @media print {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      body { background: white; color: #111; }
+      .card, .mini-card, .kpi-card { border: 1px solid #ddd; }
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <h2>📋 Project Spec</h2>
+    <p>Survey Web Application</p>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-title">ภาพรวม</div>
+    <a href="#overview" class="nav-link">🏗️ สถาปัตยกรรม</a>
+    <a href="#tech-stack" class="nav-link">⚙️ Tech Stack</a>
+    <a href="#file-structure" class="nav-link">📁 โครงสร้างไฟล์</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-title">Frontend</div>
+    <a href="#page-index" class="nav-link">🏠 หน้าหลัก (Index)</a>
+    <a href="#page-survey" class="nav-link">📋 แบบสำรวจ (Survey)</a>
+    <a href="#survey-sections" class="nav-link sub">↳ Section 1-6</a>
+    <a href="#survey-flow" class="nav-link sub">↳ Dynamic Flow</a>
+    <a href="#page-dashboard" class="nav-link">📊 แดชบอร์ด (Dashboard)</a>
+    <a href="#dashboard-ds1" class="nav-link sub">↳ Dataset 1: ข้อมูลทั่วไป</a>
+    <a href="#dashboard-ds2" class="nav-link sub">↳ Dataset 2: ความพึงพอใจ</a>
+    <a href="#dashboard-ds3" class="nav-link sub">↳ Dataset 3: NPS</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-title">Backend</div>
+    <a href="#database" class="nav-link">🗄️ Database Schema</a>
+    <a href="#api" class="nav-link">🔌 API Endpoints</a>
+    <a href="#kpi" class="nav-link">📐 KPI & สูตรคำนวณ</a>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-group-title">การ Deploy</div>
+    <a href="#deploy-local" class="nav-link">💻 Local Server</a>
+    <a href="#deploy-public" class="nav-link">🌐 Public Deploy</a>
+  </div>
+</nav>
+
+<!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+<div class="main">
+
+  <!-- ── Cover ── -->
+  <div class="cover">
+    <div class="cover-badge">Project Specification v2.0</div>
+    <h1>ระบบแบบสำรวจความพึงพอใจการให้บริการ</h1>
+    <div class="subtitle">Satisfaction Survey Web Application</div>
+    <div class="org">คณะสหเวชศาสตร์ มหาวิทยาลัยนเรศวร<br/>Faculty of Allied Health Sciences, Naresuan University</div>
+    <div class="meta">
+      <span>📅 พฤษภาคม 2567</span>
+      <span>📄 12 ไฟล์</span>
+      <span>🔧 Node.js + SQLite</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION: OVERVIEW                          -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section" id="overview">
+    <h2>🏗️ สถาปัตยกรรมระบบ (Architecture)</h2>
+
+    <div class="card card-accent">
+      <p style="font-size:0.85rem;">ระบบแบ่งเป็น 3 ส่วนหลัก ทำงานบน Node.js server ตัวเดียว:</p>
+      <div class="card-grid" style="margin-top:1rem;">
+        <div class="mini-card">
+          <div class="icon">🏠</div>
+          <h4>หน้าหลัก (Index)</h4>
+          <p>หน้าต้อนรับ เลือกประเภทบริการ 3 แผนก ผ่าน Interactive Cards</p>
+        </div>
+        <div class="mini-card">
+          <div class="icon">📋</div>
+          <h4>แบบสำรวจ (Survey)</h4>
+          <p>ฟอร์มหลายขั้นตอน แสดงคำถามตามแผนกที่เลือก ส่งข้อมูลเข้า Database</p>
+        </div>
+        <div class="mini-card">
+          <div class="icon">📊</div>
+          <h4>แดชบอร์ด (Dashboard)</h4>
+          <p>แผงควบคุมผู้ดูแล แสดงผลข้อมูลด้วย Chart.js พร้อมคำนวณ KPI</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Data Flow</h3>
+    <div class="flow">
+      <span class="flow-step">ผู้ใช้เลือกบริการ</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">กรอกแบบสำรวจ</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">POST /api/submit</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">INSERT SQLite</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">GET /api/stats</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-step">Dashboard Charts</span>
+    </div>
+  </div>
+
+  <!-- ═══════ TECH STACK ═══════ -->
+  <div class="section" id="tech-stack">
+    <h2>⚙️ Tech Stack</h2>
+    <table>
+      <thead><tr><th>Layer</th><th>Technology</th><th>Version</th><th>หมายเหตุ</th></tr></thead>
+      <tbody>
+        <tr><td class="col-name">Frontend</td><td>HTML5, Vanilla JS</td><td>—</td><td>ไม่ใช้ Framework</td></tr>
+        <tr><td class="col-name">CSS</td><td>Tailwind CSS</td><td>v3 (CDN)</td><td>ไม่ต้อง build</td></tr>
+        <tr><td class="col-name">Charts</td><td>Chart.js</td><td>v4 (CDN)</td><td>Bar, Doughnut, Gauge</td></tr>
+        <tr><td class="col-name">Backend</td><td>Node.js + Express.js</td><td>v20+</td><td>REST API</td></tr>
+        <tr><td class="col-name">Database</td><td>SQLite3</td><td>better-sqlite3</td><td>ไฟล์เดียว .db</td></tr>
+        <tr><td class="col-name">Fonts</td><td>Google Fonts</td><td>—</td><td>Inter + Noto Sans Thai</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════ FILE STRUCTURE ═══════ -->
+  <div class="section" id="file-structure">
+    <h2>📁 โครงสร้างไฟล์</h2>
+    <pre><code>survey-app/
+├── server.js              ← Backend หลัก (Express + SQLite + KPI)
+├── package.json           ← Dependencies
+├── README.md              ← คู่มือการใช้งาน
+├── data/
+│   └── survey.db          ← ฐานข้อมูล (สร้างอัตโนมัติ)
+└── public/
+    ├── index.html          ← หน้าหลัก
+    ├── survey.html         ← แบบสำรวจ Multi-step
+    ├── dashboard.html      ← แดชบอร์ด Admin
+    ├── images/
+    │   └── logo.png        ← โลโก้
+    ├── css/
+    │   ├── index.css       ← สไตล์หน้าหลัก
+    │   ├── survey.css      ← สไตล์แบบสำรวจ
+    │   └── dashboard.css   ← สไตล์แดชบอร์ด
+    └── js/
+        ├── index.js        ← Particles, Card interactions
+        ├── survey.js       ← Multi-step logic, Validation, Submit
+        └── dashboard.js    ← Chart.js, Auth, Filters, NPS</code></pre>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION: INDEX PAGE                        -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section" id="page-index">
+    <h2>🏠 หน้าหลัก (Index Page)</h2>
+
+    <div class="card">
+      <h4>Design</h4>
+      <p style="font-size:0.8rem; color:var(--text-secondary);">
+        Responsive, Mobile-first, Glassmorphism theme พร้อม Animated orbs และ Particle canvas
+      </p>
+    </div>
+
+    <h3>3 Interactive Cards</h3>
+    <table>
+      <thead><tr><th>Card</th><th>ชื่อ (TH)</th><th>ชื่อ (EN)</th><th>Link</th><th>สี</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td class="col-name">ฟิตเนสและซาวน่า</td>
+          <td>Fitness & Sauna</td>
+          <td><code>survey.html?type=fitness</code></td>
+          <td><span class="tag tag-amber">Amber</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td class="col-name">ธาราบำบัด</td>
+          <td>Hydrotherapy</td>
+          <td><code>survey.html?type=hydro</code></td>
+          <td><span class="tag tag-cyan">Cyan</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td class="col-name">กายภาพบำบัด</td>
+          <td>Physical Therapy</td>
+          <td><code>survey.html?type=pt</code></td>
+          <td><span class="tag tag-emerald">Emerald</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert alert-info">
+      <span>💡</span>
+      <span>Hover บน Card จะ scale up (1.05) พร้อมแสดง description text แบบ fade-in</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION: SURVEY PAGE                       -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section" id="page-survey">
+    <h2>📋 แบบสำรวจ Multi-Step (Survey Page)</h2>
+
+    <h3 id="survey-flow">Dynamic Section Flow</h3>
+    <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:1rem;">
+      แต่ละแผนกจะแสดงเฉพาะ Section ที่เกี่ยวข้อง:
+    </p>
+
+    <div style="margin-bottom:0.75rem;">
+      <span class="tag tag-amber" style="margin-right:0.5rem;">Fitness</span>
+      <div class="flow" style="display:inline-flex;">
+        <span class="flow-step">Section 1</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Section 3</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Section 5</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Section 6</span>
+      </div>
+    </div>
+    <div style="margin-bottom:0.75rem;">
+      <span class="tag tag-cyan" style="margin-right:0.5rem;">Hydro</span>
+      <div class="flow" style="display:inline-flex;">
+        <span class="flow-step">Section 1</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Section 4</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Section 5</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Section 6</span>
+      </div>
+    </div>
+    <div style="margin-bottom:1.5rem;">
+      <span class="tag tag-emerald" style="margin-right:0.5rem;">PT</span>
+      <div class="flow" style="display:inline-flex;">
+        <span class="flow-step">Section 1</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Section 2</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Section 5</span><span class="flow-arrow">→</span>
+        <span class="flow-step">Section 6</span>
+      </div>
+    </div>
+
+    <h3 id="survey-sections">รายละเอียด Sections</h3>
+
+    <!-- Section 1 -->
+    <div class="card">
+      <h4>Section 1: ข้อมูลทั่วไปของผู้มารับบริการ <span class="tag tag-teal">ทุกแผนก</span></h4>
+      <table>
+        <thead><tr><th>ข้อ</th><th>คำถาม</th><th>ประเภท</th><th>DB Column</th></tr></thead>
+        <tbody>
+          <tr><td>Q1</td><td class="col-name">เพศ</td><td>Radio: ชาย, หญิง, ไม่ระบุ, อื่นๆ (+ text)</td><td><code>gender</code>, <code>gender_other</code></td></tr>
+          <tr><td>Q2</td><td class="col-name">อายุ (ปี)</td><td>Number input</td><td><code>age</code></td></tr>
+          <tr><td>Q3</td><td class="col-name">อาชีพ</td><td>Radio: 7 ตัวเลือก + อื่นๆ (+ text)</td><td><code>occupation</code>, <code>occupation_other</code></td></tr>
+          <tr><td>Q4</td><td class="col-name">ระยะเวลารอรับบริการ</td><td>Radio: &lt;15, 15-20, 21-30, &gt;30 นาที, อื่นๆ</td><td><code>wait_time</code>, <code>wait_time_other</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="card">
+      <h4>Section 2: กายภาพบำบัด <span class="tag tag-emerald">PT เท่านั้น</span></h4>
+      <table>
+        <thead><tr><th>ข้อ</th><th>คำถาม</th><th>จำนวนข้อย่อย</th><th>DB Columns</th></tr></thead>
+        <tbody>
+          <tr><td>Q6</td><td class="col-name">ความพึงพอใจด้านนัดหมาย</td><td>3 ข้อ (6.1-6.3)</td><td><code>q6_1</code> – <code>q6_3</code></td></tr>
+          <tr><td>Q7</td><td class="col-name">ความพึงพอใจในนักกายภาพบำบัด</td><td>6 ข้อ (7.1-7.6)</td><td><code>q7_1</code> – <code>q7_6</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="card">
+      <h4>Section 3: ฟิตเนสและซาวน่า <span class="tag tag-amber">Fitness เท่านั้น</span></h4>
+      <table>
+        <thead><tr><th>ข้อ</th><th>คำถาม</th><th>จำนวนข้อย่อย</th><th>DB Columns</th></tr></thead>
+        <tbody>
+          <tr><td>Q8</td><td class="col-name">ความพึงพอใจด้านนัดหมาย</td><td>3 ข้อ (8.1-8.3)</td><td><code>q8_1</code> – <code>q8_3</code></td></tr>
+          <tr><td>Q9</td><td class="col-name">ความพึงพอใจในเจ้าหน้าที่</td><td>4 ข้อ (9.1-9.4)</td><td><code>q9_1</code> – <code>q9_4</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="card">
+      <h4>Section 4: ธาราบำบัด <span class="tag tag-cyan">Hydro เท่านั้น</span></h4>
+      <table>
+        <thead><tr><th>ข้อ</th><th>คำถาม</th><th>จำนวนข้อย่อย</th><th>DB Columns</th></tr></thead>
+        <tbody>
+          <tr><td>Q10</td><td class="col-name">ความพึงพอใจด้านนัดหมาย</td><td>3 ข้อ (10.1-10.3)</td><td><code>q10_1</code> – <code>q10_3</code></td></tr>
+          <tr><td>Q11</td><td class="col-name">ความพึงพอใจในเจ้าหน้าที่</td><td>4 ข้อ (11.1-11.4)</td><td><code>q11_1</code> – <code>q11_4</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 5 -->
+    <div class="card">
+      <h4>Section 5: สิ่งอำนวยความสะดวกและความปลอดภัย <span class="tag tag-teal">ทุกแผนก</span></h4>
+      <table>
+        <thead><tr><th>ข้อ</th><th>คำถาม</th><th>จำนวนข้อย่อย</th><th>DB Columns</th></tr></thead>
+        <tbody>
+          <tr><td>Q12</td><td class="col-name">ความพึงพอใจด้านสถานที่</td><td>9 ข้อ (12.1-12.9)</td><td><code>q12_1</code> – <code>q12_9</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Section 6 -->
+    <div class="card">
+      <h4>Section 6: ข้อเสนอแนะและความคาดหวัง <span class="tag tag-teal">ทุกแผนก</span></h4>
+      <table>
+        <thead><tr><th>ข้อ</th><th>คำถาม</th><th>ประเภท</th><th>DB Column</th></tr></thead>
+        <tbody>
+          <tr><td>Q13</td><td class="col-name">คำแนะนำเหนือความคาดหมาย</td><td>Textarea</td><td><code>q13</code></td></tr>
+          <tr><td>Q14</td><td class="col-name">ทราบข่าวสารจากแหล่งใด</td><td>Radio: 8 ตัวเลือก + อื่นๆ</td><td><code>q14</code></td></tr>
+          <tr><td>Q15</td><td class="col-name">ความคาดหวังก่อนรับบริการ</td><td>Scale 0-10</td><td><code>q15</code></td></tr>
+          <tr><td>Q16</td><td class="col-name">ความคาดหวังหลังรับบริการ</td><td>Scale 0-10</td><td><code>q16</code></td></tr>
+          <tr><td>Q17</td><td class="col-name">ความประทับใจเกินคาดหมาย</td><td>Textarea</td><td><code>q17</code></td></tr>
+          <tr><td>Q18</td><td class="col-name">ความเป็นไปได้แนะนำผู้อื่น</td><td>Scale 0-10</td><td><code>q18</code></td></tr>
+          <tr><td>Q19</td><td class="col-name">ความเป็นไปได้ใช้บริการใหม่</td><td>Scale 0-10</td><td><code>q19</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="alert alert-important">
+      <span>⭐</span>
+      <span><strong>Scoring scale</strong> (Section 2-5): 5=มากที่สุด, 4=มาก, 3=ปานกลาง, 2=น้อย, 1=น้อยที่สุด, 0=ไม่พึงพอใจ</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION: DASHBOARD                         -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section" id="page-dashboard">
+    <h2>📊 Admin Dashboard</h2>
+
+    <div class="card card-accent">
+      <p style="font-size:0.8rem; color:var(--text-secondary);">
+        Layout: Header + Left Sidebar (Navigation + Filters) + Main Content (Charts)
+      </p>
+      <p style="font-size:0.8rem; color:var(--text-secondary); margin-top:0.5rem;">
+        Authentication: รหัสผ่าน <code>admin2024</code> → เก็บใน sessionStorage
+      </p>
+    </div>
+
+    <h3>Sidebar Filters</h3>
+    <table>
+      <thead><tr><th>Filter</th><th>ประเภท</th><th>API Param</th></tr></thead>
+      <tbody>
+        <tr><td class="col-name">ช่วงอายุ</td><td>Dropdown: ทั้งหมด, &lt;18, 18-24, 25-34, 35-44, 45-54, 55-64, 65+</td><td><code>?ageRange=</code></td></tr>
+        <tr><td class="col-name">อาชีพ</td><td>Dropdown: dynamic จาก data</td><td><code>?occupation=</code></td></tr>
+        <tr><td class="col-name">แผนก</td><td>คลิก Donut ใน Dataset 2</td><td><code>?service=</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Dataset 1 -->
+  <div class="section" id="dashboard-ds1">
+    <h3>📋 Dataset 1: ข้อมูลทั่วไปและการดำเนินงาน</h3>
+    <table>
+      <thead><tr><th>Chart</th><th>ชื่อ</th><th>ประเภท</th><th>ข้อมูล</th><th>KPI</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1</td><td class="col-name">อายุผู้ใช้บริการ</td>
+          <td>Column Chart</td>
+          <td>Frequency count ตามช่วงอายุ</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>2</td><td class="col-name">อาชีพ</td>
+          <td>Doughnut Chart</td>
+          <td>(Count / Total) × 100</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>3</td><td class="col-name">ช่องทางรับรู้ข่าวสาร</td>
+          <td>Horizontal Bar</td>
+          <td>(Count / Total) × 100</td>
+          <td><span class="tag tag-teal">KPI 7.4-13</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Dataset 2 -->
+  <div class="section" id="dashboard-ds2">
+    <h3>⭐ Dataset 2: วิเคราะห์ความพึงพอใจ (Interactive)</h3>
+
+    <div class="alert alert-warn">
+      <span>🖱️</span>
+      <span><strong>Interactive:</strong> คลิกแผนกใน Chart 1 (Donut) → Charts 2, 3, 4 จะ filter ตามแผนกที่เลือก</span>
+    </div>
+
+    <table>
+      <thead><tr><th>Chart</th><th>ชื่อ</th><th>ประเภท</th><th>สูตร</th><th>KPI</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1</td><td class="col-name">สัดส่วนผู้ใช้บริการแต่ละแผนก</td>
+          <td>Doughnut (Interactive)</td>
+          <td>(Users in Dept / Total) × 100</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>2</td><td class="col-name">ประสิทธิภาพเวลารอ</td>
+          <td>Column Chart</td>
+          <td>(Count &lt;15 min / Total) × 100</td>
+          <td><span class="tag tag-teal">KPI 7.2-29</span></td>
+        </tr>
+        <tr>
+          <td>3</td><td class="col-name">คะแนนความพึงพอใจภาพรวม</td>
+          <td>Gauge (max 5)</td>
+          <td>ΣScores / (Qs × N) → (Mean/5)×100</td>
+          <td><span class="tag tag-teal">KPI 7.1-9, 7.2-20~22</span></td>
+        </tr>
+        <tr>
+          <td>4</td><td class="col-name">แจกแจงรายข้อ ดี-แย่</td>
+          <td>100% Stacked Bar</td>
+          <td>Count per score ÷ Total per Q × 100</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>จำนวนคำถามต่อแผนก (สำหรับคำนวณ Mean)</h4>
+    <table>
+      <thead><tr><th>แผนก</th><th>เฉพาะแผนก</th><th>Section 5 (ทุกแผนก)</th><th>รวม</th></tr></thead>
+      <tbody>
+        <tr><td class="col-name">Fitness</td><td>q8 (3) + q9 (4) = 7</td><td>q12 (9)</td><td><strong>16</strong></td></tr>
+        <tr><td class="col-name">Hydro</td><td>q10 (3) + q11 (4) = 7</td><td>q12 (9)</td><td><strong>16</strong></td></tr>
+        <tr><td class="col-name">PT</td><td>q6 (3) + q7 (6) = 9</td><td>q12 (9)</td><td><strong>18</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Dataset 3 -->
+  <div class="section" id="dashboard-ds3">
+    <h3>🎯 Dataset 3: ความคาดหวังและ NPS</h3>
+    <table>
+      <thead><tr><th>Chart</th><th>ชื่อ</th><th>ประเภท</th><th>Data Source</th><th>KPI</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1</td><td class="col-name">เปรียบเทียบก่อน-หลัง</td>
+          <td>Clustered Column</td>
+          <td>Avg(Q15) vs Avg(Q16), scale 0-10</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>2</td><td class="col-name">แนวโน้มการแนะนำต่อ</td>
+          <td>Gauge × 2 (scale 0-10)</td>
+          <td>Avg(Q18), Avg(Q19)</td>
+          <td><span class="tag tag-teal">KPI 7.2-34</span></td>
+        </tr>
+        <tr>
+          <td>3</td><td class="col-name">Net Promoter Score</td>
+          <td>KPI Card</td>
+          <td>Q18: Promoters/Passives/Detractors</td>
+          <td><span class="tag tag-red">NPS</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="card" style="margin-top:1rem;">
+      <h4>🔢 NPS Calculation (Net Promoter Score)</h4>
+      <table>
+        <thead><tr><th>กลุ่ม</th><th>คะแนน Q18</th><th>สี</th></tr></thead>
+        <tbody>
+          <tr><td class="col-name" style="color:#34d399;">Promoters</td><td>9 – 10</td><td style="color:#22c55e;">🟢 เขียว</td></tr>
+          <tr><td class="col-name" style="color:#fbbf24;">Passives</td><td>7 – 8</td><td style="color:#eab308;">🟡 เหลือง</td></tr>
+          <tr><td class="col-name" style="color:#fb7185;">Detractors</td><td>0 – 6</td><td style="color:#ef4444;">🔴 แดง</td></tr>
+        </tbody>
+      </table>
+      <pre><code>NPS = %Promoters − %Detractors
+
+ตัวอย่าง: Promoters 60%, Detractors 20%
+NPS = 60 − 20 = 40 (ดี)</code></pre>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION: DATABASE                          -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section" id="database">
+    <h2>🗄️ Database Schema</h2>
+
+    <div class="card card-accent">
+      <p style="font-size:0.8rem;">ไฟล์: <code>data/survey.db</code> — ตารางเดียว <code>responses</code></p>
+    </div>
+
+    <table>
+      <thead><tr><th>Column</th><th>Type</th><th>Section</th><th>หมายเหตุ</th></tr></thead>
+      <tbody>
+        <tr><td class="col-name">id</td><td>INTEGER PK</td><td>—</td><td>Auto increment</td></tr>
+        <tr><td class="col-name">service_type</td><td>TEXT NOT NULL</td><td>—</td><td>fitness / hydro / pt</td></tr>
+        <tr><td class="col-name">created_at</td><td>TEXT</td><td>—</td><td>datetime('now','localtime')</td></tr>
+        <tr><td class="col-name">gender, gender_other</td><td>TEXT</td><td>S1</td><td>Q1</td></tr>
+        <tr><td class="col-name">age</td><td>INTEGER</td><td>S1</td><td>Q2</td></tr>
+        <tr><td class="col-name">occupation, occupation_other</td><td>TEXT</td><td>S1</td><td>Q3</td></tr>
+        <tr><td class="col-name">wait_time, wait_time_other</td><td>TEXT</td><td>S1</td><td>Q4</td></tr>
+        <tr><td class="col-name">q6_1 – q6_3</td><td>INTEGER</td><td>S2 (PT)</td><td>Score 0-5</td></tr>
+        <tr><td class="col-name">q7_1 – q7_6</td><td>INTEGER</td><td>S2 (PT)</td><td>Score 0-5</td></tr>
+        <tr><td class="col-name">q8_1 – q8_3</td><td>INTEGER</td><td>S3 (Fitness)</td><td>Score 0-5</td></tr>
+        <tr><td class="col-name">q9_1 – q9_4</td><td>INTEGER</td><td>S3 (Fitness)</td><td>Score 0-5</td></tr>
+        <tr><td class="col-name">q10_1 – q10_3</td><td>INTEGER</td><td>S4 (Hydro)</td><td>Score 0-5</td></tr>
+        <tr><td class="col-name">q11_1 – q11_4</td><td>INTEGER</td><td>S4 (Hydro)</td><td>Score 0-5</td></tr>
+        <tr><td class="col-name">q12_1 – q12_9</td><td>INTEGER</td><td>S5 (All)</td><td>Score 0-5</td></tr>
+        <tr><td class="col-name">q13</td><td>TEXT</td><td>S6</td><td>Textarea</td></tr>
+        <tr><td class="col-name">q14</td><td>TEXT</td><td>S6</td><td>ช่องทางรับรู้</td></tr>
+        <tr><td class="col-name">q15, q16</td><td>INTEGER</td><td>S6</td><td>Scale 0-10</td></tr>
+        <tr><td class="col-name">q17</td><td>TEXT</td><td>S6</td><td>Textarea</td></tr>
+        <tr><td class="col-name">q18, q19</td><td>INTEGER</td><td>S6</td><td>Scale 0-10</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION: API                               -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section" id="api">
+    <h2>🔌 API Endpoints</h2>
+
+    <!-- POST /api/submit -->
+    <div class="card">
+      <h4><span class="tag tag-emerald">POST</span> <code>/api/submit</code></h4>
+      <p style="font-size:0.8rem; color:var(--text-secondary); margin:0.5rem 0;">รับข้อมูลแบบสำรวจ 1 รายการ</p>
+      <pre><code>// Request Body
+{ "service_type": "fitness", "gender": "ชาย", "age": 30, ... }
+
+// Response (200)
+{ "success": true, "id": 1 }
+
+// Error (400)
+{ "success": false, "message": "service_type is required" }</code></pre>
+    </div>
+
+    <!-- GET /api/stats -->
+    <div class="card">
+      <h4><span class="tag tag-cyan">GET</span> <code>/api/stats</code></h4>
+      <p style="font-size:0.8rem; color:var(--text-secondary); margin:0.5rem 0;">ดึงสถิติทั้งหมดสำหรับ Dashboard</p>
+      <table>
+        <thead><tr><th>Parameter</th><th>ค่า</th><th>หมายเหตุ</th></tr></thead>
+        <tbody>
+          <tr><td class="col-name">service</td><td>fitness / hydro / pt</td><td>กรองตามแผนก</td></tr>
+          <tr><td class="col-name">ageRange</td><td>&lt;18, 18-24, 25-34, ...</td><td>กรองตามอายุ</td></tr>
+          <tr><td class="col-name">occupation</td><td>string</td><td>กรองตามอาชีพ</td></tr>
+        </tbody>
+      </table>
+      <h4 style="margin-top:1rem;">Response Fields</h4>
+      <table>
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td class="col-name">total</td><td>number</td><td>จำนวนผู้ตอบทั้งหมด</td></tr>
+          <tr><td class="col-name">serviceDistribution</td><td>array</td><td>จำนวนต่อแผนก</td></tr>
+          <tr><td class="col-name">servicePercentage</td><td>array</td><td>% ต่อแผนก</td></tr>
+          <tr><td class="col-name">ageDistribution</td><td>array</td><td>จำนวนต่อช่วงอายุ</td></tr>
+          <tr><td class="col-name">occupationPercentage</td><td>array</td><td>อาชีพ + % </td></tr>
+          <tr><td class="col-name">newsSourcePercentage</td><td>array</td><td>ช่องทางข่าวสาร + %</td></tr>
+          <tr><td class="col-name">waitTimeEfficiency</td><td>object</td><td>% รอ &lt;15 นาที per dept</td></tr>
+          <tr><td class="col-name">overallSatisfactionMean</td><td>object</td><td>Mean score (max 5) per dept</td></tr>
+          <tr><td class="col-name">scoreDistribution</td><td>object</td><td>Count per score (0-5) per question</td></tr>
+          <tr><td class="col-name">satisfactionAvg</td><td>object</td><td>Average per question</td></tr>
+          <tr><td class="col-name">nps</td><td>object</td><td>Promoters, Passives, Detractors, NPS score</td></tr>
+          <tr><td class="col-name">expectationComparison</td><td>object</td><td>Q15 vs Q16 avg + diff</td></tr>
+          <tr><td class="col-name">recommendationAvg</td><td>object</td><td>Q18, Q19 avg</td></tr>
+          <tr><td class="col-name">recentFeedback</td><td>array</td><td>q13, q17 ล่าสุด 20 รายการ</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- POST /api/admin/login -->
+    <div class="card">
+      <h4><span class="tag tag-amber">POST</span> <code>/api/admin/login</code></h4>
+      <pre><code>// Request
+{ "password": "admin2024" }
+
+// Success (200)
+{ "success": true }
+
+// Fail (401)
+{ "success": false, "message": "Invalid password" }</code></pre>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION: KPI                               -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section" id="kpi">
+    <h2>📐 KPI & สูตรคำนวณ</h2>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-id">KPI 7.1-9, 7.2-20~22</div>
+        <div class="kpi-name">คะแนนความพึงพอใจภาพรวม</div>
+        <div class="kpi-formula">Mean = ΣScores / (Qs × N)<br/>% = (Mean / 5) × 100</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-id">KPI 7.2-29</div>
+        <div class="kpi-name">ประสิทธิภาพเวลารอ</div>
+        <div class="kpi-formula">% = Count(&lt;15 min) / Total × 100</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-id">KPI 7.2-34</div>
+        <div class="kpi-name">แนวโน้มการแนะนำต่อ</div>
+        <div class="kpi-formula">Score = Avg(Q18), Avg(Q19)<br/>Scale 0-10</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-id">KPI 7.4-13</div>
+        <div class="kpi-name">ช่องทางรับรู้ข่าวสาร</div>
+        <div class="kpi-formula">% = Count(channel) / Total × 100</div>
+      </div>
+      <div class="kpi-card" style="border-top-color: var(--accent-red);">
+        <div class="kpi-id" style="color: var(--accent-red);">NPS</div>
+        <div class="kpi-name">Net Promoter Score</div>
+        <div class="kpi-formula">NPS = %Promoters(9-10)<br/>    − %Detractors(0-6)</div>
+      </div>
+      <div class="kpi-card" style="border-top-color: var(--accent-purple);">
+        <div class="kpi-id" style="color: var(--accent-purple);">Expectation Gap</div>
+        <div class="kpi-name">ช่องว่างความคาดหวัง</div>
+        <div class="kpi-formula">Gap = Avg(Q16) − Avg(Q15)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION: DEPLOY                            -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section" id="deploy-local">
+    <h2>💻 การ Deploy — Local Server</h2>
+    <div class="card card-accent">
+      <h4>ติดตั้ง (ครั้งแรก)</h4>
+      <pre><code>cd ~/Desktop/survey-app
+npm install</code></pre>
+      <h4 style="margin-top:1rem;">🟢 เปิดเซิร์ฟเวอร์</h4>
+      <pre><code>node server.js
+# → http://localhost:3000</code></pre>
+      <h4 style="margin-top:1rem;">🔴 ปิดเซิร์ฟเวอร์</h4>
+      <pre><code>กด Ctrl + C ที่ Terminal</code></pre>
+    </div>
+  </div>
+
+  <div class="section" id="deploy-public">
+    <h2>🌐 การ Deploy — Public (Render.com)</h2>
+    <div class="card card-accent">
+      <h4>ขั้นตอน</h4>
+      <ol style="font-size:0.8rem; color:var(--text-secondary); padding-left:1.25rem; line-height:2;">
+        <li>Push โค้ดขึ้น <strong>GitHub</strong></li>
+        <li>สมัคร <strong>render.com</strong> (ฟรี)</li>
+        <li>New → Web Service → เชื่อม GitHub repo</li>
+        <li>Build Command: <code>npm install</code></li>
+        <li>Start Command: <code>node server.js</code></li>
+        <li>กด Create → ได้ URL สาธารณะ</li>
+      </ol>
+    </div>
+
+    <div class="alert alert-warn">
+      <span>⚠️</span>
+      <span>Free Plan: server sleep หลัง 15 นาทีไม่มีคนเข้า / ข้อมูลอาจหายเมื่อ restart</span>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="text-align:center; padding:2rem 0; border-top:1px solid var(--border); margin-top:3rem;">
+    <p style="font-size:0.75rem; color:var(--text-muted);">
+      📋 Project Spec v2.0 — คณะสหเวชศาสตร์ มหาวิทยาลัยนเรศวร<br/>
+      Generated May 2567
+    </p>
+  </div>
+
+</div>
+
+</body>
+</html>

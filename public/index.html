@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>แบบสำรวจความพึงพอใจ | คณะสหเวชศาสตร์ มหาวิทยาลัยนเรศวร</title>
+  <meta name="description" content="แบบสำรวจความพึงพอใจการให้บริการ คณะสหเวชศาสตร์ มหาวิทยาลัยนเรศวร - ฟิตเนส ธาราบำบัด กายภาพบำบัด" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS v3 CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans Thai', 'sans-serif'],
+            thai: ['Noto Sans Thai', 'Inter', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/index.css" />
+</head>
+<body class="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#065f46] to-[#0d9488] text-white font-sans">
+
+  <!-- Animated Background Orbs -->
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="orb orb-3" aria-hidden="true"></div>
+  <div class="orb orb-4" aria-hidden="true"></div>
+
+  <!-- Particle Canvas -->
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <!-- Main Content -->
+  <main class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 py-12 sm:px-6 lg:px-8">
+
+    <!-- Header Section -->
+    <header class="text-center mb-12 sm:mb-16 max-w-3xl mx-auto">
+
+      <!-- Logo -->
+      <div class="fade-up fade-up-delay-1 mb-6 flex justify-center">
+        <div class="pulse-icon w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-gradient-to-br from-emerald-400/20 to-teal-500/10 border border-emerald-400/20 flex items-center justify-center backdrop-blur-sm overflow-hidden">
+          <img src="images/logo.png" alt="โลโก้คณะสหเวชศาสตร์" class="w-24 h-24 sm:w-28 sm:h-28 object-contain" />
+        </div>
+      </div>
+
+      <!-- University & Faculty Name -->
+      <div class="fade-up fade-up-delay-2">
+        <p class="text-emerald-300/80 text-sm sm:text-base font-medium tracking-widest uppercase mb-2">
+          Naresuan University
+        </p>
+        <h1 class="font-thai text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1 leading-tight">
+          คณะสหเวชศาสตร์
+        </h1>
+        <p class="text-emerald-200/60 text-sm sm:text-base font-light tracking-wide">
+          Faculty of Allied Health Sciences
+        </p>
+      </div>
+
+      <!-- Shimmer Divider -->
+      <div class="fade-up fade-up-delay-3 my-6 sm:my-8 mx-auto w-48 sm:w-64">
+        <div class="shimmer-line rounded-full"></div>
+      </div>
+
+      <!-- Subtitle -->
+      <div class="fade-up fade-up-delay-3">
+        <h2 class="font-thai text-lg sm:text-xl md:text-2xl font-semibold text-white/90 mb-2">
+          วันนี้เราบริการเป็นอย่างไรบ้างครับ/ค่ะ?
+        </h2>
+        <p class="text-emerald-200/50 text-sm sm:text-base font-light">
+          Service Satisfaction Survey
+        </p>
+      </div>
+
+      <!-- Instruction -->
+      <div class="fade-up fade-up-delay-4 mt-6">
+        <p class="text-white/40 text-sm font-light">
+          กรุณาเลือกบริการที่ท่านต้องการประเมิน
+        </p>
+      </div>
+    </header>
+
+    <!-- Cards Grid -->
+    <section class="w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-16 sm:mb-20" aria-label="เลือกประเภทบริการ">
+
+      <!-- Card 1: Physical Therapy (PT) -->
+      <div class="glass-card card-pt p-6 sm:p-8 fade-up fade-up-delay-3"
+           data-href="survey.html?type=pt"
+           data-bg-opacity="0.3"
+           data-bg-image="therapy.jpg"
+           tabindex="0"
+           role="link"
+           aria-label="กายภาพบำบัด - Physical Therapy"
+           id="card-pt"
+           style="border: 1px solid rgba(16,185,129,0.25);">
+
+        <div class="card-bg-image" style="background-image: url('images/therapy.jpg'); opacity: 0.3;"></div>
+        <div class="relative z-10">
+          <h3 class="font-thai text-xl sm:text-2xl font-bold text-white mb-1">
+            กายภาพบำบัด
+          </h3>
+          <p class="text-emerald-300/70 text-sm font-medium mb-4">
+            Physical Therapy
+          </p>
+
+          <div class="card-description">
+            <p class="text-white/60 text-sm leading-relaxed font-thai mb-4">
+              บริการตรวจประเมิน รักษา และฟื้นฟูร่างกายโดยนักกายภาพบำบัดผู้เชี่ยวชาญ พร้อมเครื่องมือที่ทันสมัย (เช่น คลื่นกระแทก Shock Wave, อัลตราซาวนด์, เครื่องกระตุ้นไฟฟ้า) ครอบคลุมการดูแลรักษาระบบกระดูก กล้ามเนื้อ และระบบประสาทแบบครบวงจร
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 text-emerald-300/60 text-sm mt-2">
+            <span class="font-medium">เริ่มประเมิน</span>
+            <span class="card-arrow text-lg">→</span>
+          </div>
+        </div>
+
+        <div class="accent-bar accent-pt"></div>
+      </div>
+
+      <!-- Card 2: Fitness & Sauna -->
+      <div class="glass-card card-fitness p-6 sm:p-8 fade-up fade-up-delay-4"
+           data-href="survey.html?type=fitness"
+           data-bg-opacity="0.3"
+           data-bg-image="sauna.jpg"
+           tabindex="0"
+           role="link"
+           aria-label="ฟิตเนสและซาวน่า - Fitness & Sauna"
+           id="card-fitness"
+           style="border: 1px solid rgba(245,158,11,0.2);">
+
+        <div class="card-bg-image" style="background-image: url('images/sauna.jpg'); opacity: 0.3;"></div>
+        <div class="relative z-10">
+          <h3 class="font-thai text-xl sm:text-2xl font-bold text-white mb-1">
+            ฟิตเนสและซาวน่า
+          </h3>
+          <p class="text-amber-300/70 text-sm font-medium mb-4">
+            Fitness &amp; Sauna
+          </p>
+
+          <div class="card-description">
+            <p class="text-white/60 text-sm leading-relaxed font-thai mb-4">
+              ห้องออกกำลังกายที่ทันสมัยและอุปกรณ์ครบครัน ครอบคลุมทั้งการยกน้ำหนักเพื่อเสริมสร้างกล้ามเนื้อและการคาร์ดิโอ พร้อมบริการห้องอบซาวน่าและสตีม (Steam) (เปิดให้บริการ 16.30 - 20.30 น.)
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 text-amber-300/60 text-sm mt-2">
+            <span class="font-medium">เริ่มประเมิน</span>
+            <span class="card-arrow text-lg">→</span>
+          </div>
+        </div>
+
+        <div class="accent-bar accent-fitness"></div>
+      </div>
+
+      <!-- Card 3: Hydrotherapy -->
+      <div class="glass-card card-hydro p-6 sm:p-8 fade-up fade-up-delay-5"
+           data-href="survey.html?type=hydro"
+           data-bg-opacity="0.3"
+           data-bg-image="water therapy.jpg"
+           tabindex="0"
+           role="link"
+           aria-label="ธาราบำบัด - Hydrotherapy"
+           id="card-hydro"
+           style="border: 1px solid rgba(6,182,212,0.2);">
+
+        <div class="card-bg-image" style="background-image: url('images/water%20therapy.jpg'); opacity: 0.3;"></div>
+        <div class="relative z-10">
+
+          <h3 class="font-thai text-xl sm:text-2xl font-bold text-white mb-1">
+            ธาราบำบัด
+          </h3>
+          <p class="text-cyan-300/70 text-sm font-medium mb-4">
+            Hydrotherapy
+          </p>
+
+          <div class="card-description">
+            <p class="text-white/60 text-sm leading-relaxed font-thai mb-4">
+              การบำบัดและฟื้นฟูร่างกายด้วยสระน้ำอุ่นประยุกต์ อาศัยคุณสมบัติของน้ำช่วยพยุงตัวและลดแรงกระแทกต่อข้อต่อ เหมาะอย่างยิ่งสำหรับผู้สูงอายุ ผู้มีปัญหาข้อเข่า หรือผู้ที่ต้องการออกกำลังกายเพื่อฟื้นฟูสมรรถภาพอย่างปลอดภัย
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 text-cyan-300/60 text-sm mt-2">
+            <span class="font-medium">เริ่มประเมิน</span>
+            <span class="card-arrow text-lg">→</span>
+          </div>
+        </div>
+
+        <div class="accent-bar accent-hydro"></div>
+      </div>
+
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center fade-up fade-up-delay-5">
+      <p class="font-thai text-white/30 text-xs sm:text-sm mb-2">
+        คณะสหเวชศาสตร์ มหาวิทยาลัยนเรศวร &copy; 2024
+      </p>
+      <a href="dashboard.html"
+         class="footer-link text-white/20 text-xs hover:text-teal-300 transition-colors duration-300"
+         id="admin-link">
+        Admin
+      </a>
+    </footer>
+
+  </main>
+
+  <!-- JS -->
+  <script src="js/index.js"></script>
+</body>
+</html>
