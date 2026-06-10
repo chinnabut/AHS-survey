@@ -15,7 +15,7 @@
  */
 
 const express = require('express');
-const Database = require('better-sqlite3');
+const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
@@ -41,7 +41,7 @@ if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir, { recursive: true });
 }
 
-const db = new Database(path.join(dataDir, 'survey.db'));
+const db = new sqlite3.Database(path.join(dataDir, 'survey.db'));
 
 // Enable WAL mode for better concurrent read performance
 db.pragma('journal_mode = WAL');
